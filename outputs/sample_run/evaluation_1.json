@@ -2,66 +2,66 @@
   "gates": [
     {
       "gate_id": "G1",
-      "passed": false,
-      "reasoning": "Contains graduate-level terminology unsuitable for an absolute beginner: non-parametric, parametric knowledge, parametric memory, latent semantic, dense vector representation, high-dimensional. Found by lookup, not judgement.",
+      "passed": true,
+      "reasoning": "All technical terms used in the lesson are introduced and defined before being relied upon (e.g., 'chunks' and 'embedding' are defined prior to retrieval; 'prompt' is defined at first use). The lesson avoids unexplained jargon for the target reader.",
       "evidence_type": "quoted_span",
-      "evidence": "bilities of external knowledge bases.\n\n## The Problem RAG Solves: Bridging Parametric and Non-Parametric Knowledge\n\nThe fundamental challenge addressed by RAG lies in augmenting the static, parametric",
-      "fix_instruction": "Remove or replace these terms entirely: non-parametric, parametric knowledge, parametric memory, latent semantic, dense vector representation, high-dimensional. Use everyday words. For example say 'a list of numbers that captures meaning' rather than 'dense vector representation'."
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G2",
-      "passed": false,
-      "reasoning": "The lesson explains the problem RAG solves and embeddings, but it omits clear, beginner-level explanations of the vector store and the retrieval step, the augmentation step (inserting retrieved text into the prompt), and the generation step (the model answering from the augmented prompt).",
-      "evidence_type": "missing_requirement",
-      "evidence": "No explanation of the vector store and the retrieval step; no clear description of augmentation (how retrieved text is put into the prompt); no description of generation (how the model reads the augmented prompt and produces an answer).",
-      "fix_instruction": "Add explicit beginner-level sections for: (a) the vector store and retrieval step: describe what a vector store holds, how a question is embedded and used to find top-k chunks; (b) augmentation: show exactly how retrieved chunks are placed into the model's prompt and the guarding instruction to 'answer only from context'; (c) generation: explain how the model reads the augmented prompt and generates the final answer. Use short sentences and examples."
+      "passed": true,
+      "reasoning": "The lesson explains the five core concepts: the problem RAG solves (old knowledge, private data, hallucination), embeddings (text to numbers capturing meaning), the vector store and retrieval step (including using the same embedding model), augmentation (adding retrieved chunks to the prompt), and generation (model answers from augmented prompt).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G3",
-      "passed": false,
-      "reasoning": "The lesson states what RAG is and why it matters, but it does not explain how RAG works as a clear step-by-step process (indexing vs querying; embedding the question; retrieving top-k; building augmented prompt; generating the answer).",
-      "evidence_type": "missing_requirement",
-      "evidence": "The lesson lacks a step-by-step explanation of the two phases (indexing and querying) and the per-question flow: embed question → retrieve top-k chunks → build augmented prompt → generate answer.",
-      "fix_instruction": "Add an explicit 'How RAG works' section that lists the two phases (indexing and querying) and walks the reader through each step in order. Use short, numbered steps and avoid jargon. Show which steps happen once and which happen on each user question."
+      "passed": true,
+      "reasoning": "The lesson explicitly answers what RAG is, why it matters (the three problems), and how it works through a clear step-by-step section labeled 'How RAG Works'.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G4",
-      "passed": false,
-      "reasoning": "The lesson contains only definitions and high-level claims. There is no concrete worked example that traces a real question through chunking, embedding, retrieval, augmentation, and generation.",
-      "evidence_type": "missing_requirement",
-      "evidence": "No concrete worked example tracing a real user question through the full RAG pipeline appears anywhere in the lesson.",
-      "fix_instruction": "Include a worked example: pick a simple, realistic user question (for example, 'How do I reset my bank password?'), show one or two example chunks from a document, show their embeddings conceptually, show the retrieval of top-k chunks, demonstrate the augmented prompt, and show the model's final grounded answer. Keep it simple and concrete."
+      "passed": true,
+      "reasoning": "The lesson contains a concrete worked example tracing a user's question about a space mission through chunking, embedding, retrieval, augmentation, and generation with specific steps and a sample prompt.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G5",
-      "passed": false,
-      "reasoning": "The lesson makes a factual claim that overstates what RAG guarantees by implying retrieved answers are 'verifiably correct', which contradicts the grounding document's caution that RAG reduces but does not eliminate hallucination and does not guarantee correctness.",
+      "passed": true,
+      "reasoning": "Factual claims align with the grounding document: RAG is an inference-time technique that augments prompts with retrieved text, embeddings are numeric vectors produced by an embedding model, the same embedding model is used for queries and chunks, and RAG reduces but does not eliminate hallucination. The lesson avoids the listed misconceptions.",
       "evidence_type": "quoted_span",
-      "evidence": "grounding these generative processes in authoritative, real-world data, thereby enhancing factual accuracy, reducing confabulation, and enabling models to offer responses that are both contextually rich and verifiably correct, even in rapidly evolving knowledge domains or highly specialized fields where comprehensive pre-training is infeasible.",
-      "fix_instruction": "Change wording to avoid implying guarantees. Replace 'verifiably correct' with language like: 'easier to check or verify' or 'more likely to be grounded in source text, though not guaranteed correct'. Add a short sentence reminding the reader that retrieved sources can be wrong or stale."
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G6",
-      "passed": false,
-      "reasoning": "Sentences are too long for this reader: longest is 49 words (limit 35), mean is 30.1 (limit 25). Measured, not judged.",
+      "passed": true,
+      "reasoning": "Language is simple, sentences are short and direct, technical terms are explained in plain words, and analogies are clear and culturally neutral. No idioms or culture-specific references were used that would confuse the target reader.",
       "evidence_type": "quoted_span",
-      "evidence": "RAG provides a principled mechanism for grounding these generative processes in authoritative, real-world data, thereby enhancing factual accuracy, reducing confabulation, and enabling models to offer responses that are both contextually rich and verifiably correct, even in rapidly evolving knowledge domains or highly specialized fields where comprehensive pre-training is infeasible.",
-      "fix_instruction": "Break long sentences up. No sentence over 35 words, and keep the average under 25. One idea per sentence."
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G7",
-      "passed": false,
-      "reasoning": "The lesson refers to retrieval and other pipeline pieces before explaining them, and it stops abruptly without completing the pipeline—this breaks the teaching flow and forces the reader to hold unexplained ideas.",
+      "passed": true,
+      "reasoning": "The lesson follows a logical teaching flow: introduction, what, why, and a step-by-step how section. Terms are introduced before being used and no forward references force the reader to hold unexplained ideas.",
       "evidence_type": "quoted_span",
-      "evidence": "Retrieval-Augmented Generation (RAG) emerges as a sophisticated architectural paradigm designed to mitigate these inherent limitations by synergistically combining the generative prowess of large language models with the dynamic, verifiable information retrieval capabilities of external knowledge bases.",
-      "fix_instruction": "Reorder the lesson into a clear sequence: start with simple definitions, then state what RAG does, then give a step-by-step pipeline (indexing, querying), then detail embeddings, vector stores, augmentation, and generation, and finally give a concrete example. Ensure no term is used before it is defined."
+      "evidence": null,
+      "fix_instruction": null
     }
   ],
   "advisory_scores": {
-    "beginner_friendliness": 2,
-    "teaching_flow": 2,
-    "example_quality": 1,
-    "concision": 3
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 4,
+    "concision": 4
   },
-  "summary": "The lesson gives a high-level, technical description of RAG and a reasonable embedding section, but it fails multiple gates for a beginner audience: it uses unexplained jargon, omits key pipeline steps (vector store/retrieval, augmentation, generation), lacks a worked example, overstates factual guarantees, and is written in complex language. To pass, the author should simplify language, define terms at first use, add missing pipeline explanations (indexing vs querying), and include a concrete end-to-end example."
+  "summary": "Overall, the lesson is clear, accurate, and well-structured for the target reader. It covers all required concepts with a concrete example, uses accessible language, and avoids the common RAG misconceptions."
 }

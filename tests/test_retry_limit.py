@@ -131,3 +131,33 @@ def test_retry_budget_is_configurable(always_failing_graph):
     final = app.invoke(state, {"recursion_limit": 25})
     assert always_failing_graph["generate"] == 2   # 1 draft + 1 retry
     assert final["status"] == "failed_needs_human"
+
+
+def test_step_mode_walks_the_same_path_as_a_normal_run(always_failing_graph):
+    """--step streams node by node instead of returning only the end state.
+
+    It must not become a second execution path: the sequence of nodes and the
+    termination guarantee have to match a normal run exactly, or the thing you
+    demonstrate interactively is not the thing that runs in production.
+    """
+    app = build_graph()
+    state = initial_state("Introduction to RAG", "beginner", max_retries=2)
+
+    visited: list[str] = []
+    merged = state
+    for chunk in app.stream(state, {"recursion_limit": 25}, stream_mode="updates"):
+        for node_name, update in chunk.items():
+            visited.append(node_name)
+            if isinstance(update, dict):
+                merged = {**merged, **update}
+
+    assert visited == [
+        "load_memory",
+        "generate", "evaluate",
+        "generate", "evaluate",
+        "generate", "evaluate",
+        "flag_for_human",
+        "persist_memory",
+    ]
+    assert merged["status"] == "failed_needs_human"
+    assert always_failing_graph["generate"] == 3   # same retry cap as invoke()

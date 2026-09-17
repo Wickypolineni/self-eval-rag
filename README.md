@@ -163,11 +163,31 @@ without a second account.
 ```bash
 .venv/bin/python -m lesson_agent.main                      # normal run
 .venv/bin/python scripts/run_deliberate_failure_demo.py    # sabotaged first draft
-.venv/bin/python -m pytest tests/ -q                       # 68 tests, offline, no API cost
+.venv/bin/python -m pytest tests/ -q                       # 69 tests, offline, no API cost
 ```
 
 **Cost: ~$0.003 per full run.** A complete three-generation run is a third of a
 cent.
+
+### Watching it run
+
+The console trace streams live — each gate resolves on screen as the judge
+returns, with the quoted evidence for anything that fails.
+
+To walk the graph one node at a time, inspecting state at every transition:
+
+```bash
+.venv/bin/python -m lesson_agent.main --step
+```
+
+It pauses after each node and prints the attempt number, status, how many drafts
+are in history, the current verdict, and how many memory patterns went into the
+prompt. Press `s` at any pause to read the current draft, `q` to stop.
+
+This is the same graph — `--step` uses LangGraph's `stream()` instead of
+`invoke()` to surface each transition rather than only the end state. A test
+pins that both paths visit the same nodes in the same order, so what you watch
+interactively is what runs normally.
 
 ### The deliberate-failure demo
 
@@ -316,7 +336,7 @@ src/lesson_agent/
   models/evaluation.py           schema that rejects an uncited failure
   memory/store.py                cross-run failure patterns
   grounding/rag_reference.md     source of truth for factual accuracy
-tests/                           68 tests, no API key required
+tests/                           69 tests, no API key required
 scripts/run_deliberate_failure_demo.py
 ```
 

@@ -17,7 +17,39 @@ from lesson_agent.utils.llm import MissingAPIKey, model_names
 DEFAULT_TOPIC = "Introduction to RAG (Retrieval-Augmented Generation)"
 
 
-def run(topic: str, max_retries: int) -> int:
+def _pause(node_name: str, state: dict) -> None:
+    """Hold between nodes so the graph can be inspected while it runs."""
+    attempt = state.get("attempt", 0)
+    status = state.get("status", "?")
+    verdict = state.get("verdict")
+
+    log.dim("─" * 66)
+    log.info(f"paused after [{node_name}]")
+    log.dim(f"  attempt={attempt}  status={status}  history={len(state.get('history', []))} draft(s)")
+    if verdict is not None:
+        failed = [g.gate_id for g in verdict.failed_gates]
+        log.dim(f"  verdict: {'PASS' if verdict.passed else 'REJECT'}"
+                + (f"  failing {', '.join(failed)}" if failed else ""))
+    if state.get("known_failures"):
+        log.dim(f"  memory: {len(state['known_failures'])} pattern(s) in the prompt")
+
+    try:
+        reply = input("  [Enter] continue · [s] show current draft · [q] quit > ").strip().lower()
+    except EOFError:
+        return
+    if reply == "q":
+        raise KeyboardInterrupt
+    if reply == "s" and state.get("lesson"):
+        print()
+        print(state["lesson"][:2500])
+        print()
+        try:
+            input("  [Enter] continue > ")
+        except EOFError:
+            return
+
+
+def run(topic: str, max_retries: int, step: bool = False) -> int:
     load_dotenv()
     models = model_names()
 
@@ -38,7 +70,21 @@ def run(topic: str, max_retries: int) -> int:
     # recursion_limit is a backstop: the retry cap in the router is the real
     # termination guarantee, but a graph that could loop forever is a bug even
     # if the logic says otherwise.
-    final = app.invoke(state, {"recursion_limit": 2 * (max_retries + 1) + 6})
+    config = {"recursion_limit": 2 * (max_retries + 1) + 6}
+
+    if not step:
+        final = app.invoke(state, config)
+    else:
+        # Stream node by node so the graph can be watched and paused. Same
+        # graph, same nodes -- stream() just surfaces each transition instead
+        # of returning only the end state.
+        log.warn("step mode: pausing after every node")
+        final = state
+        for chunk in app.stream(state, config, stream_mode="updates"):
+            for node_name, update in chunk.items():
+                if isinstance(update, dict):
+                    final = {**final, **update}
+                _pause(node_name, final)
 
     log.banner("RUN COMPLETE")
     status = final.get("status")
@@ -58,6 +104,11 @@ def cli() -> int:
     )
     p.add_argument("--topic", default=DEFAULT_TOPIC, help="Lesson topic.")
     p.add_argument(
+        "--step",
+        action="store_true",
+        help="Pause after each node so you can inspect the state as it runs.",
+    )
+    p.add_argument(
         "--max-retries",
         type=int,
         default=int(os.getenv("MAX_RETRIES", "2")),
@@ -66,7 +117,7 @@ def cli() -> int:
     args = p.parse_args()
 
     try:
-        return run(args.topic, args.max_retries)
+        return run(args.topic, args.max_retries, step=args.step)
     except MissingAPIKey as exc:
         log.error(str(exc))
         return 2

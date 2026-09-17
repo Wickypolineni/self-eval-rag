@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "total_runs": 14,
+  "total_runs": 15,
   "gate_failure_counts": {
     "G4": 14,
     "G5": 11,
@@ -292,7 +292,7 @@
       "timestamp": "2026-09-17T15:27:31+00:00"
     }
   ],
-  "last_updated": "2026-09-17T15:27:31+00:00",
+  "last_updated": "2026-09-17T15:30:51+00:00",
   "run_history": [
     {
       "run": 1,
@@ -482,6 +482,15 @@
       ],
       "terminal_failed_gates": [],
       "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 15,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 1,
+      "failed_gates": [],
+      "terminal_failed_gates": [],
+      "timestamp": "2026-09-17T15:30:51+00:00"
     }
   ]
 }
