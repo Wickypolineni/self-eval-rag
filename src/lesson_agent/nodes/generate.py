@@ -18,7 +18,7 @@ from lesson_agent.memory import store
 from lesson_agent.models.evaluation import Attempt, GeneratedLesson
 from lesson_agent.state import LessonState
 from lesson_agent.utils import logging as log
-from lesson_agent.utils.config import load_prompts
+from lesson_agent.utils.config import load_grounding, load_prompts
 from lesson_agent.utils.llm import generator_model
 from lesson_agent.utils.text import fill
 
@@ -51,7 +51,15 @@ def generate(state: LessonState) -> LessonState:
             memory_block=memory_text,
         )
 
-    system_prompt = fill(prompts["system"], audience=state["audience"])
+    # The generator gets the SAME grounding document the evaluator judges
+    # against. Without this the writer is guessing at factual boundaries while
+    # the judge holds the answer key -- which produced a repeating G5 failure
+    # (overclaims like "correct information", "always fresh", "ensures").
+    system_prompt = fill(
+        prompts["system"],
+        audience=state["audience"],
+        grounding=load_grounding(),
+    )
 
     model = generator_model()
     structured = model.with_structured_output(GeneratedLesson, include_raw=True)

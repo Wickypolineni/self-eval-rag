@@ -97,10 +97,33 @@ problem cannot rubber-stamp.
 **3. It is a different vendor from the generator.** Google writes, OpenAI grades.
 A model grades its own prose more softly than a stranger's.
 
-And a fourth, which caught a real error during the recorded demo: **cited quotes
-are verified against the lesson text.** When the judge failed a gate citing text
-that did not appear in the lesson, the phantom finding was discarded rather than
-driving a pointless retry.
+**4. Cited quotes are verified against the lesson.** When the judge failed a gate
+citing text that did not appear in the lesson, the phantom finding was discarded
+rather than driving a pointless retry. This fired during a real run.
+
+**5. Deterministic prechecks sit underneath the judge — because the judge failed.**
+
+This one was not planned. It was forced by a real defect.
+
+During development the LLM evaluator **passed a deliberately sabotaged draft** on
+G1 and G6 — dense academic prose, 46-word sentences, "non-parametric memory",
+"latent semantic space". On that same draft it scored `example_quality=1` and
+`beginner_friendliness=2` out of 5.
+
+So the judge could see the content was bad, and still would not commit to a
+binary fail. That is a false negative in a quality gate, which is worse than
+having no gate: it ships bad content *while reporting that it checked*.
+
+The fix is not a better prompt. Some of what these gates measure is not a matter
+of judgement at all — sentence length is arithmetic, and whether the string
+"latent semantic space" appears in a beginner lesson is a lookup.
+[`nodes/prechecks.py`](src/lesson_agent/nodes/prechecks.py) computes those
+deterministically, for free, before the LLM is called. Measured on the sabotaged
+draft the judge passed, they fail G1 and G6 immediately; measured on the shipped
+lesson, they raise nothing.
+
+A precheck can only **fail** a gate, never pass one. It is a floor under the
+judge, not a replacement for it.
 
 ---
 
@@ -215,6 +238,14 @@ run's generator prompt opens with:
 > *LEARNED FROM PAST RUNS — do not repeat these mistakes:*
 > *G1 has failed 2 times in past runs. A previous draft was rejected for: "..."*
 
+Warnings are ranked by what is hurting the system **now**, not by lifetime
+total. An earlier version ranked purely by cumulative count, and it learned the
+wrong lesson: G5 ended two consecutive runs in escalation while the generator was
+being warned about G1, G2, G3 and G4 — gates with bigger piles accumulated
+earlier. The gate actually stopping content from shipping was never mentioned to
+the writer. Recent failures now count 5x, and a gate that was still failing when
+a run gave up counts 10x.
+
 JSON rather than SQLite on purpose: it is ~40 lines, it diffs in a pull request,
 it commits as evidence, and you can show it on screen before and after a run.
 A binary store buys nothing here and costs a schema and a connection lifecycle.
@@ -248,6 +279,12 @@ to a real store, partitioned by topic. (3) Gates G1/G6 are cheap enough to run a
 deterministic checks first — sentence length, an undefined-term scan against a
 glossary — reserving the LLM judge for the gates that actually need judgment.
 That would cut evaluator calls substantially.
+
+**The evaluator's false-negative rate is the real open question.** The
+prechecks close the measurable part of it. Everything they cannot measure — does
+the example actually teach, does the flow actually build — still rests on one
+model's reading, and I have one data point saying that reading is not always
+reliable. That is the honest state of it.
 
 **What I'd add with another week.** A held-out eval set of known-good and
 known-bad lessons to measure the *evaluator* itself — precision and recall on

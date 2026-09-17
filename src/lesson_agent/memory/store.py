@@ -62,15 +62,62 @@ def save(data: dict[str, Any]) -> None:
     MEMORY_PATH.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+# Failures in the last RECENT_WINDOW runs count this much more than older ones.
+# Ranking purely by lifetime total let stale failures crowd out the gate that is
+# actually blocking right now: after several runs, G4/G2/G1 had the biggest
+# piles while G5 was the gate ending every run in escalation -- and G5 never
+# made the warning list. The system was learning the wrong lesson.
+RECENT_WINDOW = 3
+RECENCY_WEIGHT = 5
+
+# A gate that ended a run in escalation is the gate that actually stopped
+# content shipping. That outranks one that was merely failed and then fixed.
+BLOCKER_WEIGHT = 10
+
+
+def _warning_ranking(data: dict[str, Any]) -> list[tuple[str, int, float]]:
+    """Rank gates by how much they are hurting us NOW, not historically.
+
+    Returns (gate_id, lifetime_count, priority_score), highest priority first.
+    """
+    counts: Counter[str] = Counter(data.get("gate_failure_counts", {}))
+    if not counts:
+        return []
+
+    history = data.get("run_history", [])
+    recent_runs = history[-RECENT_WINDOW:]
+    recent = Counter(g for r in recent_runs for g in r.get("failed_gates", []))
+
+    # Gates that were still failing when a run gave up and escalated.
+    blockers = Counter(
+        g
+        for r in recent_runs
+        if not r.get("passed", True)
+        for g in r.get("failed_gates", [])
+    )
+
+    ranked = [
+        (
+            gate,
+            total,
+            total + RECENCY_WEIGHT * recent.get(gate, 0) + BLOCKER_WEIGHT * blockers.get(gate, 0),
+        )
+        for gate, total in counts.items()
+    ]
+    ranked.sort(key=lambda t: (-t[2], t[0]))
+    return ranked
+
+
 def known_failure_warnings() -> list[str]:
     """Render repeated past failures as instructions for the generator.
 
     This is the 'self-evolving' edge: the prompt sent on run N is shaped by what
-    went wrong on runs 1..N-1.
+    went wrong on runs 1..N-1 -- weighted so recent and ship-blocking failures
+    are what the generator actually hears about.
     """
     data = load()
-    counts: Counter[str] = Counter(data.get("gate_failure_counts", {}))
-    if not counts:
+    ranked = _warning_ranking(data)
+    if not ranked:
         return []
 
     # Most recent quoted example per gate, so the warning is concrete.
@@ -81,7 +128,7 @@ def known_failure_warnings() -> list[str]:
             example[gid] = entry["evidence"]
 
     warnings: list[str] = []
-    for gate_id, count in counts.most_common(MAX_WARNINGS):
+    for gate_id, count, _score in ranked[:MAX_WARNINGS]:
         if count < WARN_THRESHOLD:
             continue
         line = f"{gate_id} has failed {count} times in past runs."

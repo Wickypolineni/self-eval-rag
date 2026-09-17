@@ -109,6 +109,45 @@ degrade where it is merely inconvenient.
 The evaluator also rejects an *incomplete* verdict — if the judge omits any gate,
 that raises rather than being read as a partial pass.
 
+## 4b. When the judge failed — and what that changed
+
+The most useful thing that happened during development was the evaluator being
+wrong in a way I could prove.
+
+A deliberately sabotaged draft — graduate-register prose, 46-word sentences,
+"non-parametric memory", "latent semantic space", no worked example — was
+**passed** by the LLM judge on G1 (no unexplained jargon) and G6 (readable by a
+limited-English learner). Its advisory scores on that same draft were
+`beginner_friendliness=2`, `example_quality=1`.
+
+The judge could see the content was bad. It would not fail a binary gate on it.
+
+Two things follow.
+
+**First, the advisory scores earned their place.** They were included as
+diagnostics for the memory layer. What they actually did was expose a
+contradiction inside the verdict — low scores next to passing gates — that no
+single blended number would have shown. A 1-10 score would have read "about a 4"
+and hidden the disagreement entirely.
+
+**Second, the response is architectural, not prompt-level.** Sentence length is
+arithmetic. The presence of "latent semantic space" in a beginner lesson is a
+lookup. Neither needs a language model, and a language model does them less
+reliably than `len(sentence.split())` does.
+
+So `nodes/prechecks.py` runs before the judge and computes what can be computed:
+per-sentence and mean sentence length, a list of terms that disqualify a draft
+for this reader outright, and an idiom list. A precheck may only **fail** a gate,
+never pass one — it is a floor under the judge, not a replacement. On the
+sabotaged draft it fails G1 and G6 immediately. On the shipped lesson it raises
+nothing.
+
+The general principle, and the one I would carry to any eval work: **do not ask
+a model to judge what you can measure.** Reserve the model for the gates that
+genuinely require reading comprehension, and put a deterministic floor under the
+ones that do not. It is cheaper, it is faster, and it cannot be talked out of a
+failure.
+
 ## 5. The router
 
 ```python
@@ -170,10 +209,17 @@ persist_memory  → run #1 recorded; G1,G2,G3,G4,G6 each +1
 
 ## 8. Known limitations
 
-**The evaluator is unmeasured.** I can demonstrate it catching a deliberate
-error. I cannot yet state how often it misses one. Closing that needs a held-out
-set of lessons with planted errors and a precision/recall number on the judge
-itself. This is the most important missing piece, and I would build it first.
+**The evaluator has a known, unquantified false-negative rate.** I have one
+proven miss (section 4b) and no measurement of how often it happens. The
+prechecks close the part of the gap that is objectively measurable; the rest —
+does the worked example actually teach, does the flow actually build — still
+rests on a single model's reading.
+
+Closing this needs a held-out set of lessons with planted errors and a
+precision/recall figure for the judge itself. It is the most important missing
+piece and I would build it first. Note the difference between "I can show my
+evaluator catching a deliberate error" and "I know how often my evaluator misses
+one" — the second is the claim that matters, and I cannot make it yet.
 
 **Gate independence is assumed.** G1 (jargon) and G6 (accessibility) overlap
 heavily; they frequently fail together, which slightly overweights language

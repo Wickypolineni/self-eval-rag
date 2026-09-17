@@ -1,93 +1,16 @@
 {
   "schema_version": 1,
-  "total_runs": 6,
+  "total_runs": 11,
   "gate_failure_counts": {
-    "G4": 6,
-    "G1": 5,
-    "G2": 4,
-    "G3": 4,
-    "G6": 4,
-    "G5": 3,
-    "G7": 3
+    "G4": 12,
+    "G1": 7,
+    "G2": 7,
+    "G5": 7,
+    "G3": 6,
+    "G6": 6,
+    "G7": 6
   },
   "recent_failures": [
-    {
-      "run": 1,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G1",
-      "evidence": "The landscape of large language models (LLMs) has undeniably transformed artificial intelligence, yet their inherent limitations, particularly concerning factual accuracy, recency of information, and the propensity for hallucination, necessitate sophisticated architectural augmentations.",
-      "timestamp": "2026-09-17T13:25:40+00:00"
-    },
-    {
-      "run": 1,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G2",
-      "evidence": "The augmentation phase is where the retrieved information is strategically integrated into the prompt presented to the LLM, transforming a general-purpose generative query into a highly specific, context-aware instruction. The most salient textual segments identified during the retrieval step are concatenated with the original user query, forming an enriched prompt. This process effectively expands the LLM",
-      "timestamp": "2026-09-17T13:25:40+00:00"
-    },
-    {
-      "run": 1,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G3",
-      "evidence": "The augmentation phase is where the retrieved information is strategically integrated into the prompt presented to the LLM, transforming a general-purpose generative query into a highly specific, context-aware instruction. The most salient textual segments identified during the retrieval step are concatenated with the original user query, forming an enriched prompt. This process effectively expands the LLM",
-      "timestamp": "2026-09-17T13:25:40+00:00"
-    },
-    {
-      "run": 1,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G4",
-      "evidence": "Embeddings: Transforming Text into Meaningful Numerical Representations\n\nCentral to the RAG architecture is the concept of embeddings, which serve as the bridge between unstructured textual data and the quantitative operations required for efficient retrieval.",
-      "timestamp": "2026-09-17T13:25:40+00:00"
-    },
-    {
-      "run": 1,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G6",
-      "evidence": "The landscape of large language models (LLMs) has undeniably transformed artificial intelligence, yet their inherent limitations, particularly concerning factual accuracy, recency of information, and the propensity for hallucination, necessitate sophisticated architectural augmentations.",
-      "timestamp": "2026-09-17T13:25:40+00:00"
-    },
-    {
-      "run": 2,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G1",
-      "evidence": "The landscape of large language models (LLMs) has undeniably transformed artificial intelligence, yet their inherent limitations, particularly concerning factual accuracy, recency of information, and the propensity for hallucination, necessitate sophisticated architectural augmentations.",
-      "timestamp": "2026-09-17T13:29:34+00:00"
-    },
-    {
-      "run": 2,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G4",
-      "evidence": "This lesson delves into the foundational components and operational mechanics of RAG, elucidating its role in enhancing the veridicality and specificity of LLM outputs.",
-      "timestamp": "2026-09-17T13:29:34+00:00"
-    },
-    {
-      "run": 2,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G6",
-      "evidence": "The landscape of large language models (LLMs) has undeniably transformed artificial intelligence, yet their inherent limitations, particularly concerning factual accuracy, recency of information, and the propensity for hallucination, necessitate sophisticated architectural augmentations.",
-      "timestamp": "2026-09-17T13:29:34+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G1",
-      "evidence": "The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis.",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G2",
-      "evidence": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G3",
-      "evidence": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
     {
       "run": 3,
       "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
@@ -213,9 +136,163 @@
       "gate_id": "G4",
       "evidence": "This is like giving the student a small, special library for each question. The student can then read from this library to give a correct answer.",
       "timestamp": "2026-09-17T13:40:50+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G2",
+      "evidence": "The vector store then quickly looks for text pieces whose numbers are very similar to your question",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G3",
+      "evidence": "The vector store then quickly looks for text pieces whose numbers are very similar to your question",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "For example:\n*   \"The cat sat on the mat\" -> might become `[0.2, 0.5, -0.1, ...]`\n*   \"A feline rested on the rug\" -> might become `[0.21, 0.49, -0.12, ...]` (very similar numbers)\n*   \"The car drove fast\" -> might become `[0.9, -0.3, 0.7, ...]` (very different numbers)",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G7",
+      "evidence": "The vector store then quickly looks for text pieces whose numbers are very similar to your question",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G2",
+      "evidence": "Large Language Models (LLMs) are like this smart friend. LLMs are computer programs that can understand and create human language. They learn from a lot of text, like books and websites. But they only know what they learned during their training.\n\nIf you ask an LLM about very new information, or specific details not in its training, it might guess wrong. It might even make up information. This is called \"hallucination.\"\n\nRAG solves this problem. It helps LLMs get new and correct information to answer questions.",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "It looks for the stored text chunks whose numbers (embeddings) are most similar to your question",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "It will only use the information from the retrieved chunk.",
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G1",
+      "evidence": "The architectural paradigm of Retrieval-Augmented Generation (RAG) represents a significant advancement in the capabilities of large language models (LLMs), fundamentally addressing several inherent limitations of purely parametric knowledge representations.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "This lesson will delineate the core components and operational mechanics of RAG, providing a foundational understanding for its application in sophisticated natural language processing tasks.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "This symbiotic relationship between retrieval and generation ensures that the model's output is not merely fluent but also accurate, relevant, and transparently supported by external evidence, representing a significant paradigm shift in the pursuit of more reliable and robust AI systems.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G6",
+      "evidence": "At the heart of modern information retrieval and semantic understanding lies the concept of embeddings, which are dense vector representations of linguistic units—be they words, phrases, or entire documents—within a high-dimensional latent semantic space.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G7",
+      "evidence": "The architectural paradigm of Retrieval-Augmented Generation (RAG) represents a significant advancement in the capabilities of large language models (LLMs), fundamentally addressing several inherent limitations of purely parametric knowledge representations.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "Think of RAG like this: Your smart friend (LLM) is in a library. When you ask a question, your friend quickly finds the right book. Then, your friend uses that book to answer your question. The book is the \"retrieved\" information. Your friend's answer is the \"generated\" response.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "It gives the LLM **new information**. This information is always fresh and up-to-date.\n\nIt makes the LLM's answers **more correct**. It helps the LLM not make things up.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "Retrieval-Augmented Generation, or RAG, helps this smart friend. RAG gives the LLM new, correct information. This helps the LLM give better answers.",
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 9,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "For example, \"How do I change my password?\" and \"I forgot my login details\" mean almost the same thing. Their embeddings would be close.",
+      "timestamp": "2026-09-17T14:42:44+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G1",
+      "evidence": "capacity for intricate pattern recognition within vast corpora, fundamentally operate on parametric knowledge assimilated during their pre-training phase. This intrinsic reliance renders them suscept",
+      "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G2",
+      "evidence": "## Augmentation: Contextualizing the Generative Prompt\n\nFollowing the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
+      "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G3",
+      "evidence": "Following the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
+      "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "Once textual information has been transformed into dense vector representations, these embeddings are systematically indexed and stored within a specialized data structure known as a vector store.",
+      "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G6",
+      "evidence": "RAG directly confronts these challenges by providing a mechanism for LLMs to access and synthesize information from a dynamic, external knowledge base at inference time, thereby mitigating the incidence of unsupported assertions and enhancing the contextual relevance and factual fidelity of their outputs.",
+      "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G7",
+      "evidence": "Following the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
+      "timestamp": "2026-09-17T14:48:28+00:00"
     }
   ],
-  "last_updated": "2026-09-17T13:40:50+00:00",
+  "last_updated": "2026-09-17T14:48:28+00:00",
   "run_history": [
     {
       "run": 1,
@@ -299,6 +376,72 @@
         "G4"
       ],
       "timestamp": "2026-09-17T13:40:50+00:00"
+    },
+    {
+      "run": 7,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": false,
+      "attempts": 3,
+      "failed_gates": [
+        "G2",
+        "G3",
+        "G4",
+        "G7",
+        "G2",
+        "G4",
+        "G5"
+      ],
+      "timestamp": "2026-09-17T13:45:02+00:00"
+    },
+    {
+      "run": 8,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": false,
+      "attempts": 3,
+      "failed_gates": [
+        "G1",
+        "G4",
+        "G5",
+        "G6",
+        "G7",
+        "G4",
+        "G5",
+        "G5"
+      ],
+      "timestamp": "2026-09-17T14:36:59+00:00"
+    },
+    {
+      "run": 9,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 2,
+      "failed_gates": [
+        "G4"
+      ],
+      "timestamp": "2026-09-17T14:42:44+00:00"
+    },
+    {
+      "run": 10,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 1,
+      "failed_gates": [],
+      "timestamp": "2026-09-17T14:44:08+00:00"
+    },
+    {
+      "run": 11,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 2,
+      "failed_gates": [
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G6",
+        "G7"
+      ],
+      "timestamp": "2026-09-17T14:48:28+00:00"
     }
   ]
 }

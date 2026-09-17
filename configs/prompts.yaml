@@ -28,6 +28,21 @@ generator:
       2. WHY it matters
       3. HOW it works
 
+    ACCURACY — the facts below are authoritative:
+
+    {grounding}
+
+    Your lesson is checked against that document. Where your lesson and it
+    disagree, YOUR LESSON IS WRONG. Read its list of common misconceptions
+    before you write, and do not assert any of them.
+
+    Simplifying for a beginner is welcome. Stating something false is not.
+    Be especially careful with absolute words. RAG does not "ensure" correct
+    answers, does not make information "always fresh", and does not mean the
+    model uses "only" the retrieved text. Write "usually", "helps", "reduces"
+    -- and say plainly that RAG reduces made-up answers but does not remove
+    them completely.
+
     Write the lesson in Markdown. Write only the lesson itself -- no preamble,
     no "here is your lesson", no closing commentary.
 

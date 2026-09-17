@@ -24,7 +24,8 @@ import difflib
 
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from lesson_agent.models.evaluation import Verdict
+from lesson_agent.models.evaluation import GateResult, Verdict
+from lesson_agent.nodes.prechecks import run_prechecks
 from lesson_agent.state import LessonState
 from lesson_agent.utils import logging as log
 from lesson_agent.utils.config import (
@@ -145,6 +146,31 @@ def evaluate(state: LessonState) -> LessonState:
             g.reasoning = f"[citation could not be verified in the lesson] {g.reasoning}"
             g.evidence = None
             g.fix_instruction = None
+
+    # --- Deterministic prechecks override the judge ------------------------
+    # The LLM judge has a demonstrated false-negative rate: it passed a
+    # sabotaged draft on G1 and G6 while scoring that same draft 1-2 out of 5
+    # on its own advisory dimensions. Where a gate can be measured instead of
+    # judged, the measurement wins. A precheck can only FAIL a gate, never
+    # pass one -- it is a floor under the judge, not a replacement for it.
+    precheck_failures = run_prechecks(lesson_text)
+    if precheck_failures:
+        by_gate = {g.gate_id: g for g in precheck_failures}
+        overridden: list[str] = []
+        merged: list[GateResult] = []
+        for g in verdict.gates:
+            if (pre := by_gate.get(g.gate_id)) is not None:
+                if g.passed:
+                    overridden.append(g.gate_id)
+                merged.append(pre)
+            else:
+                merged.append(g)
+        verdict = verdict.model_copy(update={"gates": merged})
+        if overridden:
+            log.warn(
+                f"deterministic precheck overrode the judge on {', '.join(overridden)} "
+                "— the model passed text that fails an objective check"
+            )
 
     # --- Report -------------------------------------------------------------
     for g in verdict.gates:
