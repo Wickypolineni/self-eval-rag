@@ -1,0 +1,18 @@
+{
+  "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+  "status": "passed",
+  "attempts_used": 2,
+  "max_generations_allowed": 3,
+  "models": {
+    "generator": "google/gemini-2.5-flash",
+    "evaluator": "openai/gpt-5-mini"
+  },
+  "gates_failed_by_attempt": {
+    "1": [
+      "G5"
+    ],
+    "2": []
+  },
+  "human_review_reason": null,
+  "finished_at": "2026-09-17T13:37:22+00:00"
+}

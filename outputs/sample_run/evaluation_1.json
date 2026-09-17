@@ -1,0 +1,60 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "Technical terms used in the lesson (RAG, LLM, embedding, vector, vector store, retrieval, prompt, hallucinate) are introduced and explained in simple language at or before their first use. Definitions do not rely on unexplained jargon.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "All five core concepts are present and explained for a beginner: the problem RAG solves, embeddings, the vector store and retrieval, augmentation, and generation.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explains WHAT RAG is (a way to give new information to an LLM), WHY it matters (fixes knowledge cutoff, private data, reduces hallucination), and HOW it works (embedding→retrieve→augment→generate) in separate sections.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "The lesson contains a concrete, worked example that traces a real question (returning a broken phone) through retrieval, augmentation, and generation.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": false,
+      "reasoning": "The lesson asserts that RAG 'solves' the listed problems in a way that implies it fully eliminates hallucination. This contradicts the grounding document, which states that RAG reduces hallucination but does not eliminate it.",
+      "evidence": "RAG solves these problems. It helps the LLM get new, correct, and specific information.",
+      "fix_instruction": "Replace the sentence with a careful statement: e.g. 'RAG helps address these problems by supplying relevant external text at query time. It reduces hallucination and provides up-to-date and private information, but it does not eliminate errors — the model can still misread or contradict retrieved text.' Also add a short note that embeddings are produced by a separate embedding model and that, in practice, the same embedding model must be used for both documents and queries."
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is simple, sentences are short and direct, no idioms or culture-specific references, and the library/friend analogy is appropriate for the target reader.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "The lesson follows a clear, logical order: intro → problem → embeddings → retrieval → augmentation → generation. Concepts are not used before being introduced.",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 4,
+    "teaching_flow": 4,
+    "example_quality": 4,
+    "concision": 4
+  },
+  "summary": "The lesson is well-structured and accessible for a limited-English beginner. However, it overstates RAG's effectiveness by implying it fully 'solves' hallucination; revise that claim and add brief facts about how embeddings are produced (a separate embedding model) and the need to use the same embedding model for queries and documents."
+}

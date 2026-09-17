@@ -1,0 +1,144 @@
+# ============================================================================
+# QUALITY RUBRIC — the ship / don't-ship contract
+# ============================================================================
+# The assessment brief is explicit: "a rubric of hard pass/fail checkpoints you
+# design — no partial credit, each check clearly passes or fails."
+#
+# So: EVERY ship-blocking check below is binary. There is no weighted score,
+# no threshold to average past, no way for strong prose to compensate for a
+# missing concept. A lesson ships only if ALL gates pass.
+#
+# The advisory scores at the bottom are NOT ship-blocking. They exist to give
+# the cross-run memory layer a gradient to learn from. Read them as telemetry.
+#
+# This file is config, not code. Tuning the quality bar does not require
+# touching the graph.
+# ============================================================================
+
+audience:
+  description: >-
+    A 12th-grade graduate from India with limited English vocabulary, from a
+    non-English-medium background, who wants to start a career in AI. They have
+    no programming background and no prior exposure to machine learning.
+  reading_level: "Plain English. Short sentences. No assumed cultural context."
+
+# ----------------------------------------------------------------------------
+# HARD GATES — binary. ANY failure rejects the lesson.
+# Each maps to a dimension named in the assessment brief.
+# ----------------------------------------------------------------------------
+gates:
+
+  - id: G1
+    name: "No unexplained jargon"
+    maps_to: "clear, no unexplained jargon"
+    check: >-
+      Every technical term is defined in plain language at its FIRST use, before
+      it is relied upon. This includes but is not limited to: embedding, vector,
+      vector database, retrieval, corpus, chunk, token, semantic, cosine
+      similarity, index, query, inference, prompt, hallucination, LLM,
+      fine-tuning, parameter, model weights.
+    fails_when: >-
+      Any such term appears and is used to explain something else before the
+      lesson has defined it. A definition that itself relies on undefined jargon
+      also fails (e.g. defining "embedding" as "a dense vector representation"
+      when neither "dense" nor "vector" has been explained).
+
+  - id: G2
+    name: "Covers all five core concepts"
+    maps_to: "covers the key points"
+    check: >-
+      All five concepts are present AND explained, not merely name-dropped:
+        1. The problem RAG solves (knowledge cutoff, private data, hallucination)
+        2. Embeddings — turning text into numbers that capture meaning
+        3. The vector store and the retrieval step
+        4. Augmentation — putting retrieved text into the prompt
+        5. Generation — the model answering from that augmented prompt
+    fails_when: >-
+      Any of the five is absent, or is mentioned by name without being explained
+      well enough for a beginner to say what it does.
+
+  - id: G3
+    name: "Answers what / why / how"
+    maps_to: "covers the key points (brief requires this structure explicitly)"
+    check: >-
+      The lesson explicitly covers all three: WHAT RAG is, WHY it matters, and
+      HOW it works. The brief names this structure directly.
+    fails_when: >-
+      Any of the three is missing or is so thin a beginner could not answer that
+      question after reading.
+
+  - id: G4
+    name: "Teaches by concrete example"
+    maps_to: "teaches by example"
+    check: >-
+      Contains at least one concrete worked example or sustained analogy that
+      traces a real question through the system end to end — not an abstract
+      restatement of the steps.
+    fails_when: >-
+      The lesson is purely definitional, or the only "example" is a generic
+      placeholder with no actual content moving through the pipeline.
+
+  - id: G5
+    name: "Factually accurate against the grounding document"
+    maps_to: "accurate & grounded"
+    check: >-
+      Every factual claim is consistent with grounding/rag_reference.md. That
+      file is authoritative; where the lesson and the grounding document
+      disagree, the lesson is wrong. Pay particular attention to the
+      misconception list in section 10 of the grounding document.
+    fails_when: >-
+      Any claim contradicts the grounding document, or asserts any listed
+      misconception. Simplification for a beginner is acceptable; a statement
+      that is actually false is not.
+
+  - id: G6
+    name: "Accessible to a limited-English reader"
+    maps_to: "beginner-friendly language"
+    check: >-
+      Written for a reader with limited English vocabulary from a
+      non-English-medium school. Sentences are short and direct. No idioms, no
+      figures of speech, no wordplay, no culturally specific references that
+      assume a Western frame (baseball, Thanksgiving, US legal or tax systems).
+      Analogies drawn from everyday Indian life are welcome — a library, a
+      kitchen, a railway timetable, a shop.
+    fails_when: >-
+      Sentences are routinely long or clause-heavy; idiomatic English appears
+      ("piece of cake", "under the hood", "boils down to"); or an analogy
+      depends on context this reader would not have.
+
+  - id: G7
+    name: "Coherent teaching flow"
+    maps_to: "coherent teaching flow"
+    check: >-
+      Concepts build in a sensible order. Nothing is relied upon before it is
+      introduced. The reader is never asked to hold an unexplained idea in mind
+      and wait for a later section to resolve it.
+    fails_when: >-
+      There is a forward reference the reader cannot resolve, the order jumps
+      around, or a section assumes knowledge the lesson supplies only later.
+
+# ----------------------------------------------------------------------------
+# ADVISORY SCORES — 1-5. NOT ship-blocking. Diagnostics only.
+#
+# Deliberately excluded from the pass decision: the brief forbids partial
+# credit. These feed the memory layer so repeated weakness in a dimension can
+# sharpen the generator prompt over time.
+# ----------------------------------------------------------------------------
+advisory_scores:
+  - id: beginner_friendliness
+    description: "How well pitched is this for the target reader?"
+  - id: teaching_flow
+    description: "How well does one idea lead into the next?"
+  - id: example_quality
+    description: "How vivid and useful is the worked example?"
+  - id: concision
+    description: "Is every paragraph earning its place?"
+
+# ----------------------------------------------------------------------------
+# PASS CONDITION
+# ----------------------------------------------------------------------------
+pass_condition:
+  rule: "all_gates_pass"
+  description: >-
+    A lesson ships if and only if every gate above passes. Advisory scores are
+    recorded but never consulted in this decision.

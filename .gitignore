@@ -1,0 +1,29 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Run artifacts. The brief names the passing lesson and the rejection log as
+# required OUTPUT, and sample_run/ is committed evidence that the loop really
+# ran — so these are tracked deliberately. Everything else under outputs/ is
+# scratch from local runs.
+outputs/*
+!outputs/.gitkeep
+!outputs/sample_run/
+!outputs/final_lesson.md
+!outputs/rejection_log.json
+!outputs/run_summary.json

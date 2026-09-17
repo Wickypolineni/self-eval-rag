@@ -1,0 +1,60 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "Every technical term used (LLM, hallucinate, embedding, embedding model, vector store, vector, retrieval, prompt, augmentation, generation) is defined in plain language at first use. Definitions do not rely on undefined jargon.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "The lesson explains the five core concepts: the problems RAG solves (knowledge cutoff, hallucination, private data), embeddings, the vector store and retrieval step, augmentation (adding retrieved text to the prompt), and generation (model answers from augmented prompt).",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explains WHAT RAG is (an approach that gives new text to an LLM), WHY it matters (solves old information, hallucination, private data issues), and HOW it works (embedding, retrieval, augmentation, generation) in clear sections.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "The lesson includes a concrete worked example ('How do I return a broken phone?') that shows retrieval and the construction of an augmented prompt and how the LLM uses it to answer.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "reasoning": "Factual claims align with the grounding document: RAG supplies external text at query time, reduces (not eliminates) hallucination, embeddings are numeric vectors produced by a separate embedding model, the same embedding model must be used for questions and documents, and RAG is an architecture rather than a model.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is simple, sentences are short or moderate length, no idioms or culturally specific references, and examples are accessible to a non-English-medium Indian reader.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "Concepts are presented in a logical order: problem first, then how RAG builds embeddings, stores and retrieves them, augments prompts, and finally generates answers. Nothing is relied on before it is introduced.",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 4,
+    "concision": 4
+  },
+  "summary": "The lesson meets all rubric gates. It defines terms before use, covers the five core concepts, explains what/why/how, includes a concrete example, is factually accurate with the grounding document, uses accessible language, and follows a clear teaching order."
+}

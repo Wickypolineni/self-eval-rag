@@ -1,0 +1,60 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "All technical terms that the lesson uses to explain RAG are defined before they are relied upon (LLM, knowledge cutoff, hallucination, chunk, embedding/vector, vector store, retrieval, augmentation, prompt, ANN). Definitions are simple and use common words.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "The lesson explains the five core concepts: the problems RAG solves (knowledge cutoff, hallucination, private data), embeddings, the vector store and retrieval, augmentation (prompt-building), and generation.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly states WHAT RAG is, WHY it matters (three problems), and HOW it works (four steps). The structure is named at the start and followed.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "The lesson provides a concrete, end-to-end example (phone return question) that follows the query through indexing, retrieval, augmentation, and generation with concrete chunk texts and a sample prompt.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": false,
+      "reasoning": "One sentence makes an absolute claim that contradicts the grounding document's caution that RAG only reduces hallucination and that models may still misread retrieved text.",
+      "evidence": "Because the student (LLM) has the relevant books (chunks), its answer will be correct and specific to your company's policy.",
+      "fix_instruction": "Change this sentence to a cautious, accurate statement. For example: 'Because the student (LLM) has the relevant books (chunks), its answer is more likely to be correct and specific to your company's policy, but the model can still make mistakes or misread the provided text. Always verify important facts and include citations to the source chunks.'"
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is clear, sentences are short and direct, and the library analogy is culturally neutral and accessible. There are no idioms or culturally specific references that would confuse the intended reader.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "The lesson flows logically: definitions and problems come first, then a step-by-step HOW section with each step introduced before it is used. The reader is not asked to hold unexplained concepts.",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 5,
+    "concision": 4
+  },
+  "summary": "This is a clear, well-structured lesson that covers RAG thoroughly and provides a strong concrete example. Fix the single overconfident sentence in the Generation section to avoid claiming RAG guarantees correctness; note that RAG reduces but does not eliminate model errors."
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "attempt": 1,
+    "what_failed": [
+      "G5"
+    ],
+    "why": [
+      {
+        "gate_id": "G5",
+        "reasoning": "The lesson asserts that RAG 'solves' the listed problems in a way that implies it fully eliminates hallucination. This contradicts the grounding document, which states that RAG reduces hallucination but does not eliminate it.",
+        "evidence_quoted_from_lesson": "RAG solves these problems. It helps the LLM get new, correct, and specific information.",
+        "required_fix": "Replace the sentence with a careful statement: e.g. 'RAG helps address these problems by supplying relevant external text at query time. It reduces hallucination and provides up-to-date and private information, but it does not eliminate errors — the model can still misread or contradict retrieved text.' Also add a short note that embeddings are produced by a separate embedding model and that, in practice, the same embedding model must be used for both documents and queries."
+      }
+    ],
+    "changed_on_next_retry": "G5: Replaced \"RAG solves these problems\" with a more careful statement about reducing hallucination and added a note about using the same embedding model for documents and queries."
+  }
+]
