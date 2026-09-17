@@ -1,37 +1,16 @@
 {
   "schema_version": 1,
-  "total_runs": 11,
+  "total_runs": 12,
   "gate_failure_counts": {
-    "G4": 12,
+    "G4": 13,
+    "G5": 9,
     "G1": 7,
     "G2": 7,
-    "G5": 7,
     "G3": 6,
     "G6": 6,
     "G7": 6
   },
   "recent_failures": [
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G4",
-      "evidence": "This lesson will systematically deconstruct the core tenets of RAG, illuminating its architectural components and operational dynamics.",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G6",
-      "evidence": "The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis.",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G7",
-      "evidence": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
     {
       "run": 3,
       "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
@@ -290,9 +269,30 @@
       "gate_id": "G7",
       "evidence": "Following the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
       "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 12,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "the lesson contains no concrete worked example that traces a real user question through indexing, retrieval, augmentation, and generation using actual text or chunks.",
+      "timestamp": "2026-09-17T15:15:05+00:00"
+    },
+    {
+      "run": 12,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "RAG helps with all these problems. It gives the computer program the correct and new information it needs, right when it asks a question.",
+      "timestamp": "2026-09-17T15:15:05+00:00"
+    },
+    {
+      "run": 12,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "The language model reads this combined message and writes an answer based *only* on the provided context.",
+      "timestamp": "2026-09-17T15:15:05+00:00"
     }
   ],
-  "last_updated": "2026-09-17T14:48:28+00:00",
+  "last_updated": "2026-09-17T15:15:05+00:00",
   "run_history": [
     {
       "run": 1,
@@ -442,6 +442,19 @@
         "G7"
       ],
       "timestamp": "2026-09-17T14:48:28+00:00"
+    },
+    {
+      "run": 12,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 3,
+      "failed_gates": [
+        "G4",
+        "G5",
+        "G5"
+      ],
+      "terminal_failed_gates": [],
+      "timestamp": "2026-09-17T15:15:05+00:00"
     }
   ]
 }

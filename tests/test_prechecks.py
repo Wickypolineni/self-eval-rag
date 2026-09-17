@@ -77,9 +77,52 @@ def test_code_blocks_are_not_measured_as_prose():
     assert "G6" not in _gate_ids(text)
 
 
-def test_headings_and_lists_are_not_measured_as_prose():
-    text = PLAIN + "\n- " + "item " * 50 + "\n"
+def test_long_sentences_inside_lists_ARE_measured():
+    """Regression: list items used to be skipped entirely.
+
+    Much of a lesson's real explanation lives in bullets and numbered steps. An
+    earlier splitter dropped any line starting with a bullet or "1."-"3.", so an
+    80-word numbered sentence passed the readability gate untouched.
+    """
+    text = PLAIN + "\n1.  " + "word " * 80 + ".\n"
+    assert "G6" in _gate_ids(text)
+
+
+def test_bullet_lists_are_measured_too():
+    text = PLAIN + "\n- " + "word " * 60 + ".\n"
+    assert "G6" in _gate_ids(text)
+
+
+def test_headings_and_table_rows_are_not_measured():
+    """Genuine non-prose stays excluded."""
+    text = PLAIN + "\n## " + "heading " * 50 + "\n| " + "cell " * 50 + "|\n"
     assert "G6" not in _gate_ids(text)
+
+
+def test_adjacent_list_items_are_not_joined_into_a_run_on():
+    """Two short items ending without full stops must not merge into one
+    oversized sentence. This produced a false positive on a shipped lesson."""
+    text = PLAIN + "\n".join([
+        "",
+        "*   " + "short item words here " * 3,
+        "*   " + "another short item here " * 3,
+    ])
+    assert "G6" not in _gate_ids(text)
+
+
+def test_definable_terms_are_left_to_the_judge():
+    """The precheck must not enforce a stricter rule than rubric G1.
+
+    G1 permits any technical term if defined in plain language at first use, so
+    terms a lesson could legitimately teach must not be banned outright here.
+    """
+    text = PLAIN + "\nCosine similarity is a way to measure how close two lists of numbers are.\n"
+    assert "G1" not in _gate_ids(text)
+
+
+def test_wrong_register_phrasing_is_still_banned():
+    text = PLAIN + "\nRAG is an architectural paradigm using non-parametric memory.\n"
+    assert "G1" in _gate_ids(text)
 
 
 def test_sentence_splitter_ignores_fragments():

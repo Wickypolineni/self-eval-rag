@@ -103,11 +103,24 @@ evaluator:
     You judge against binary gates. There is no partial credit. Each gate either
     fully passes or it fails. "Mostly fine" is a FAIL.
 
-    THE RULE YOU MUST NOT BREAK:
-    For every gate you fail, you MUST quote the exact offending text from the
-    lesson, copied verbatim. Not a paraphrase, not a description -- the actual
-    words as they appear. If you cannot find a specific span of text to quote,
-    then you do not have grounds to fail that gate, and it passes.
+    EVERY FAILURE MUST BE EVIDENCED. There are exactly two kinds:
+
+    1. evidence_type = "quoted_span"
+       The lesson SAYS something wrong. Quote the exact offending text,
+       copied verbatim from the lesson. Not a paraphrase -- the actual words.
+       Do not invent a quote. If you cannot locate the text you have in mind,
+       you are misremembering, and you must re-read before failing this way.
+
+    2. evidence_type = "missing_requirement"
+       The lesson OMITS something the gate requires. There is nothing to quote,
+       because the text does not exist. State precisely what is absent, for
+       example: "the lesson never explains what an embedding is" or "no worked
+       example appears anywhere in the lesson".
+
+    Gates G2, G3 and G4 are about coverage, so they usually fail the second way.
+    Never pass a coverage gate merely because you could not find a sentence to
+    quote -- absence IS the finding. Check whether the required content is
+    actually present, and if it is not, fail the gate as a missing_requirement.
 
     Be hard to please on G1 and G6. The reader has limited English. A word that
     seems ordinary to you may be a wall to them.

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class GateResult(BaseModel):
@@ -24,12 +24,24 @@ class GateResult(BaseModel):
     reasoning: str = Field(
         description="One or two sentences explaining the judgement."
     )
+    evidence_type: Literal["quoted_span", "missing_requirement"] | None = Field(
+        default="quoted_span",
+        description=(
+            "How this failure is evidenced. 'quoted_span' when the lesson contains "
+            "something wrong -- quote it. 'missing_requirement' when the lesson "
+            "OMITS something the gate requires, where there is nothing to quote "
+            "because the text does not exist. Gates about coverage (G2, G3, G4) "
+            "commonly fail this way."
+        ),
+    )
     evidence: str | None = Field(
         default=None,
         description=(
-            "REQUIRED when passed is false. A verbatim quote from the lesson showing "
-            "the problem. Copy the text exactly; do not paraphrase. When passed is "
-            "true, leave this null."
+            "REQUIRED when passed is false. For 'quoted_span', a verbatim quote from "
+            "the lesson showing the problem -- copy it exactly, do not paraphrase. "
+            "For 'missing_requirement', a precise statement of what is absent, e.g. "
+            "'no explanation of embeddings appears anywhere in the lesson'. "
+            "When passed is true, leave this null."
         ),
     )
     fix_instruction: str | None = Field(
@@ -41,14 +53,42 @@ class GateResult(BaseModel):
         ),
     )
 
+    @field_validator("evidence_type", mode="before")
+    @classmethod
+    def _normalise_evidence_type(cls, v: object) -> str:
+        """Tolerate what models actually send.
+
+        A passing gate has no evidence, so judges routinely return null here --
+        and a strict Literal rejected the whole verdict over it, failing all
+        seven gates on a field that carries no meaning when a gate passes.
+        Normalising is right: the schema should be strict about the claim being
+        made, not brittle about how an irrelevant field was filled in.
+        """
+        if v in (None, "", "null"):
+            return "quoted_span"
+        if isinstance(v, str):
+            t = v.strip().lower().replace("-", "_").replace(" ", "_")
+            if t in ("quoted_span", "quote", "span", "quoted"):
+                return "quoted_span"
+            if t in ("missing_requirement", "missing", "absent", "omission", "missing_content"):
+                return "missing_requirement"
+        return "quoted_span"
+
     @model_validator(mode="after")
     def _failures_must_cite(self) -> GateResult:
-        """A failure without evidence is an opinion, not a finding."""
+        """A failure without evidence is an opinion, not a finding.
+
+        Note the two shapes a failure can take. Requiring a verbatim quote for
+        EVERY failure was a design error: gates G2/G3/G4 fail because something
+        is absent, and absence cannot be quoted. That rule made missing content
+        unreportable, and the evaluator prompt resolved the contradiction by
+        passing the gate -- silently approving lessons with no worked example.
+        """
         if not self.passed:
             if not (self.evidence or "").strip():
                 raise ValueError(
                     f"Gate {self.gate_id} failed but cited no evidence. "
-                    "Every failure must quote the offending text."
+                    "Quote the offending text, or state precisely what is missing."
                 )
             if not (self.fix_instruction or "").strip():
                 raise ValueError(

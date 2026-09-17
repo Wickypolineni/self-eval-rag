@@ -3,58 +3,65 @@
     {
       "gate_id": "G1",
       "passed": true,
-      "reasoning": "Every technical term used is defined before it is relied on (e.g., 'chunk', 'embedding', 'embedding model', 'vector database', 'prompt', 'hallucination'). Definitions are simple and do not rely on other unexplained jargon.",
+      "reasoning": "All technical terms that the lesson uses (e.g., 'language model', 'embedding', 'chunk', 'vector store', 'augmentation', 'prompt', 'hallucination', 'indexing', 'querying') are defined in simple language at or before their first use. Definitions avoid unexplained jargon and are accessible to beginners.",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G2",
       "passed": true,
-      "reasoning": "The lesson explains the five core concepts: the three problems RAG solves, embeddings, the vector store and retrieval step, augmentation (building the augmented prompt), and generation (answering from the augmented prompt). Each concept is given a clear explanatory paragraph.",
+      "reasoning": "The lesson explains the five core concepts clearly: the problems RAG solves (knowledge cutoff, private data, hallucination), embeddings, the vector store and retrieval step (including chunking), augmentation (adding retrieved text to the prompt), and generation (model answering from the augmented prompt).",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G3",
       "passed": true,
-      "reasoning": "The lesson clearly states WHAT RAG is (section 'What is RAG?'), WHY it matters (section 'Why RAG Matters'), and HOW it works (section 'How RAG Works: Two Main Parts'), with the structure explicitly named.",
+      "reasoning": "The lesson explicitly states WHAT RAG is, WHY it matters (section 1), and HOW it works (sections 2–5 and the worked example). Each part is clearly labeled and explained for a beginner.",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G4",
       "passed": true,
-      "reasoning": "The lesson includes a concrete worked example that traces a real question ('How can I get my company email password again?') through embedding, retrieval, prompt construction, and generation, showing input and output at each step.",
+      "reasoning": "The lesson includes a concrete worked example that traces a real question ('How many days of annual leave do I get?') through indexing, chunking, embedding, retrieval, augmentation, and generation, meeting the requirement for an end-to-end example.",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G5",
-      "passed": true,
-      "reasoning": "All factual claims align with the grounding document: RAG is an inference-time technique, embeddings are produced by a separate model, RAG reduces but does not eliminate hallucination, vector stores are common but not required, and the question and chunks must use the same embedding model.",
-      "evidence": null,
-      "fix_instruction": null
+      "passed": false,
+      "reasoning": "The lesson asserts that the model will produce answers based only on the provided retrieved context. This contradicts the grounding document, which warns that the instruction is a guardrail and the model may still use its own knowledge or hallucinate.",
+      "evidence_type": "quoted_span",
+      "evidence": "The language model reads this combined message and writes an answer based *only* on the provided context.",
+      "fix_instruction": "Change this sentence to clearly state that the model is instructed to use the provided context but may still use its own trained knowledge or make errors. For example: 'The language model is instructed to use the provided context when answering, but this is a guardrail—not a guarantee. The model can still use its own knowledge or misread the context, so RAG reduces but does not eliminate incorrect answers.'"
     },
     {
       "gate_id": "G6",
       "passed": true,
-      "reasoning": "Language is short and direct, with the friendly 'smart friend' analogy suitable for limited-English readers. No idioms or culturally specific references are used, and sentences are accessible.",
+      "reasoning": "Language is simple, sentences are short and direct, and analogies (exam, library, catalog card) are culturally neutral or accessible. There are no idioms or culturally specific references that would block understanding for the target reader.",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G7",
       "passed": true,
-      "reasoning": "The lesson follows a clear teaching order: introduce the idea, explain why it matters, then give a two-phase how-to with indexing before querying. Concepts are introduced before they are used.",
+      "reasoning": "The lesson flows logically: it defines RAG, explains the problem it solves, then introduces embeddings, retrieval, augmentation, generation, and finally a worked example that follows the same order. Nothing is relied on before introduction.",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     }
   ],
   "advisory_scores": {
     "beginner_friendliness": 4,
-    "teaching_flow": 5,
+    "teaching_flow": 4,
     "example_quality": 5,
     "concision": 4
   },
-  "summary": "This lesson is well suited for the specified reader. It defines required terms, covers all core concepts, gives a clear end-to-end example, and stays factually accurate to the grounding document."
+  "summary": "Overall the lesson is well-structured and beginner-friendly, covering all required concepts with a clear worked example. The single factual error is the claim that the model will answer based only on the retrieved context; this should be revised to say the model is instructed to do so but may still use its own knowledge or make mistakes."
 }

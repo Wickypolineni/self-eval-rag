@@ -93,7 +93,9 @@ def _warning_ranking(data: dict[str, Any]) -> list[tuple[str, int, float]]:
         g
         for r in recent_runs
         if not r.get("passed", True)
-        for g in r.get("failed_gates", [])
+        # Fall back to failed_gates for records written before this field
+        # existed, so older memory files still rank sensibly.
+        for g in (r.get("terminal_failed_gates") or r.get("failed_gates", []))
     )
 
     ranked = [
@@ -160,6 +162,7 @@ def record_run(
     passed: bool,
     attempts: int,
     failures: list[dict[str, str]],
+    terminal_failed_gates: list[str] | None = None,
 ) -> dict[str, Any]:
     """Fold one run's outcome into the persistent record."""
     data = load()
@@ -191,7 +194,14 @@ def record_run(
         "topic": topic,
         "passed": passed,
         "attempts": attempts,
+        # Every gate that failed at any point in the run...
         "failed_gates": [f["gate_id"] for f in failures],
+        # ...versus the ones STILL failing when the run gave up. Only these
+        # actually stopped content shipping, and only these earn blocker
+        # weight. Flattening the two made a gate that failed once and was
+        # fixed on the next attempt look as damaging as the one that ended
+        # the run.
+        "terminal_failed_gates": list(terminal_failed_gates or []),
         "timestamp": stamp,
     })
     data["run_history"] = history[-25:]

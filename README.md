@@ -160,7 +160,7 @@ without a second account.
 ```bash
 .venv/bin/python -m lesson_agent.main                      # normal run
 .venv/bin/python scripts/run_deliberate_failure_demo.py    # sabotaged first draft
-.venv/bin/python -m pytest tests/ -q                       # 20 tests, offline, no API cost
+.venv/bin/python -m pytest tests/ -q                       # 54 tests, offline, no API cost
 ```
 
 **Cost: ~$0.003 per full run.** A complete three-generation run is a third of a
@@ -183,31 +183,41 @@ Both directories under `outputs/` are committed output from actual runs.
 ### A passing run — [`outputs/sample_run/`](outputs/sample_run/)
 
 ```
-attempt 1  →  REJECT — failed G2 (missing concepts), G3 (no end-to-end HOW),
-                       G4 (analogies but no worked example)
-attempt 2  →  PASS   — 7/7 gates
+attempt 1  →  REJECT — G4 (no worked example), G5 (accuracy overclaim)
+attempt 2  →  REJECT — G5 (accuracy overclaim, again)
+attempt 3  →  PASS   — 7/7 gates
 ```
 
-The judge failed G4 on a draft that *looked* well taught — it had a student, a
-library and a fruit analogy. What it lacked was a single real question traced
-through the pipeline:
+Both failure shapes appear here, which is the point.
 
-> "This is like giving the student a small, special library for each question."
+**G4 failed on absence.** The judge reported it as a `missing_requirement`:
 
-A score-based rubric would have rewarded that prose. A binary gate asks a
-narrower question — is there a worked example, yes or no — and the answer was no.
+> "the lesson contains no concrete worked example that traces a real user
+> question through indexing and retrieval"
 
-What the generator reported changing on retry:
+There is no text to quote, because the problem is that the text does not exist.
+An earlier version of this schema demanded a verbatim quote for every failure,
+which made absence literally unreportable — and the evaluator prompt resolved
+that contradiction by passing the gate. A lesson with no worked example would
+have shipped.
 
-> "G2: Added explicit explanations for knowledge cutoff, private data, and
-> hallucination as problems RAG solves. Added separate explanations for
-> chunking, indexing vs querying, augmentation..."
+**G5 failed on a quoted overclaim**, twice, and the second one is worth reading:
 
-Across other runs the same evaluator has also caught factual errors on G5 — for
-instance a draft claiming RAG makes answers "correct and specific", which
-contradicts the grounding document's statement that RAG *reduces* hallucination
-without eliminating it. That sentence reads fluently and confidently; it is wrong
-only against a source of truth.
+> "The language model reads this combined message and writes an answer based
+> *only* on the provided..."
+
+That contradicts the grounding document: the prompt *instructs* the model to use
+the retrieved text, but the instruction is a guardrail, not a guarantee. It reads
+fluently and confidently, and it is wrong only against a source of truth. An
+earlier build shipped exactly this sentence — the judge missed it — which is what
+prompted adding the overclaim family to the grounding document's misconception
+list.
+
+The shipped lesson now says:
+
+> "This instruction is a guardrail, not a guarantee. The model can still use its
+> own knowledge or misread the context. So, RAG reduces but does not eliminate
+> incorrect answers."
 
 ### A run that refused to ship — [`outputs/escalation_run/`](outputs/escalation_run/)
 
@@ -308,7 +318,7 @@ src/lesson_agent/
   models/evaluation.py           schema that rejects an uncited failure
   memory/store.py                cross-run failure patterns
   grounding/rag_reference.md     source of truth for factual accuracy
-tests/                           20 tests, no API key required
+tests/                           54 tests, no API key required
 scripts/run_deliberate_failure_demo.py
 ```
 

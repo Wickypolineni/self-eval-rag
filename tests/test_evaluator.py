@@ -115,3 +115,39 @@ def test_feedback_block_carries_quote_and_fix():
     assert "latent semantic space" in block
     assert "define 'vector' in plain words first" in block
     assert "G2" not in block  # passing gates are not noise in the retry prompt
+
+
+# --- absence failures, and schema robustness --------------------------------
+
+def test_a_missing_requirement_can_be_reported_without_a_quote():
+    """Regression: coverage gates fail because something is ABSENT.
+
+    Requiring a verbatim quote for every failure made missing content
+    unreportable, and the evaluator prompt resolved that contradiction by
+    passing the gate -- silently approving lessons with no worked example.
+    """
+    g = GateResult(
+        gate_id="G4", passed=False, reasoning="no worked example",
+        evidence_type="missing_requirement",
+        evidence="no worked example appears anywhere in the lesson",
+        fix_instruction="add one tracing a real question end to end",
+    )
+    assert g.passed is False
+    assert g.evidence_type == "missing_requirement"
+
+
+def test_a_missing_requirement_still_needs_a_statement_of_what_is_absent():
+    with pytest.raises(ValidationError):
+        GateResult(gate_id="G4", passed=False, reasoning="bad",
+                   evidence_type="missing_requirement", fix_instruction="fix")
+
+
+@pytest.mark.parametrize("sent", [None, "null", "", "Quoted-Span", "missing", "MISSING_REQUIREMENT"])
+def test_evidence_type_tolerates_what_models_actually_send(sent):
+    """A passing gate has no evidence, so judges routinely send null here.
+
+    A strict Literal rejected the entire verdict over it -- failing all seven
+    gates on a field that is meaningless when a gate passes.
+    """
+    g = GateResult(gate_id="G1", passed=True, reasoning="ok", evidence_type=sent)
+    assert g.evidence_type in ("quoted_span", "missing_requirement")

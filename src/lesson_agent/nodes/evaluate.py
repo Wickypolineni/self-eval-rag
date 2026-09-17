@@ -43,6 +43,10 @@ class EvaluationError(RuntimeError):
     """The verdict could not be trusted. Never downgrade this to a pass."""
 
 
+class _UnverifiableVerdict(RuntimeError):
+    """Internal: the verdict cited text that is not in the lesson. Re-request it."""
+
+
 def _normalise(text: str) -> str:
     return " ".join(text.lower().split())
 
@@ -91,61 +95,69 @@ def evaluate(state: LessonState) -> LessonState:
 
     model = evaluator_model()
     structured = model.with_structured_output(Verdict, include_raw=True)
+    lesson_text = state["lesson"] or ""
+    names = _gate_names()
 
+    def _request_verdict() -> Verdict:
+        """One round trip, fully validated. Raises if it cannot be trusted."""
+        result = structured.invoke([
+            SystemMessage(content=prompts["system"]),
+            HumanMessage(content=user_prompt),
+        ])
+        parsed = result.get("parsed")
+        if parsed is None:
+            raise EvaluationError(
+                f"evaluator returned unparseable output: "
+                f"{str(result.get('parsing_error') or 'no parsed object')[:300]}"
+            )
+
+        # Every gate must be judged. A partial pass is not a verdict.
+        if missing := set(gate_ids()) - {g.gate_id for g in parsed.gates}:
+            raise _UnverifiableVerdict(f"evaluator skipped gate(s): {sorted(missing)}")
+
+        # Only quoted_span failures claim something about the lesson's literal
+        # text. A missing_requirement describes what is ABSENT -- there is
+        # nothing to locate, so nothing to verify.
+        unverifiable = [
+            g.gate_id
+            for g in parsed.gates
+            if not g.passed
+            and g.evidence_type == "quoted_span"
+            and g.evidence
+            and not _quote_appears_in(g.evidence, lesson_text)
+        ]
+        if unverifiable:
+            raise _UnverifiableVerdict(
+                f"cited text absent from the lesson on: {', '.join(unverifiable)}"
+            )
+        return parsed
+
+    # Two attempts, then fail loud.
+    #
+    # An earlier version flipped an unverifiable failure to passed, on the
+    # reasoning that a hallucinated citation should not drive a pointless
+    # retry. That was fail-open: a judge that merely quoted sloppily could
+    # approve content it had just rejected. A verdict we cannot verify is a
+    # verdict we cannot use, so it is discarded whole and re-requested -- and
+    # if the second attempt is also untrustworthy, the run stops. Shipping on
+    # an unreadable verdict is the one outcome this system exists to prevent.
     verdict: Verdict | None = None
     last_error: Exception | None = None
-
-    # One reparse retry, then fail loud. We never fall through to a pass.
     for attempt_n in range(2):
         try:
-            result = structured.invoke([
-                SystemMessage(content=prompts["system"]),
-                HumanMessage(content=user_prompt),
-            ])
-            parsed = result.get("parsed")
-            if parsed is None:
-                raise EvaluationError(
-                    f"evaluator returned unparseable output: "
-                    f"{str(result.get('parsing_error') or 'no parsed object')[:300]}"
-                )
-            verdict = parsed
+            verdict = _request_verdict()
             break
         except Exception as exc:  # noqa: BLE001 - re-raised below if terminal
             last_error = exc
             if attempt_n == 0:
-                log.warn(f"verdict did not parse ({type(exc).__name__}); retrying once")
+                log.warn(f"verdict rejected ({type(exc).__name__}: {str(exc)[:120]}); re-requesting once")
 
     if verdict is None:
         raise EvaluationError(
-            "Evaluator failed to produce a valid verdict after a retry. "
-            "Refusing to treat an unparseable verdict as a pass.\n"
+            "Evaluator failed to produce a trustworthy verdict after a retry. "
+            "Refusing to treat an unusable verdict as a pass.\n"
             f"Last error: {last_error}"
         ) from last_error
-
-    # --- Integrity checks on the verdict itself -----------------------------
-    expected = set(gate_ids())
-    returned = {g.gate_id for g in verdict.gates}
-    if missing := expected - returned:
-        raise EvaluationError(
-            f"Evaluator skipped gate(s): {sorted(missing)}. "
-            "An incomplete rubric pass cannot be trusted as a verdict."
-        )
-
-    lesson_text = state["lesson"] or ""
-    names = _gate_names()
-    for g in verdict.gates:
-        if not g.passed and g.evidence and not _quote_appears_in(g.evidence, lesson_text):
-            # The judge failed a gate citing text that is not in the lesson.
-            # Treat as a hallucinated citation: drop the finding rather than
-            # let a phantom failure drive a retry.
-            log.warn(
-                f"{g.gate_id}: cited evidence not found in the lesson — "
-                "discarding as a hallucinated citation"
-            )
-            g.passed = True
-            g.reasoning = f"[citation could not be verified in the lesson] {g.reasoning}"
-            g.evidence = None
-            g.fix_instruction = None
 
     # --- Deterministic prechecks override the judge ------------------------
     # The LLM judge has a demonstrated false-negative rate: it passed a

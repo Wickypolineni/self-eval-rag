@@ -27,17 +27,24 @@ import re
 
 from lesson_agent.models.evaluation import GateResult
 
-# A beginner lesson should not contain these at all. They are not terms that
-# need a careful definition -- for this reader they are the wrong register
-# entirely, and their presence means the draft was written for someone else.
+# Phrases that are the wrong REGISTER for this reader no matter how carefully
+# they are introduced. These are academic constructions, not technical terms a
+# beginner lesson might reasonably teach.
+#
+# Deliberately narrowed: an earlier version also banned "cosine similarity",
+# "corpus", "semantic similarity" and "encoder". That contradicted rubric gate
+# G1, which permits any technical term provided it is defined in plain language
+# at first use. A deterministic check must not quietly enforce a stricter rule
+# than the rubric it claims to implement -- so terms a lesson could legitimately
+# teach are left to the judge, and only genuinely inappropriate phrasing is
+# failed here.
 DISQUALIFYING_JARGON = [
     "non-parametric", "parametric knowledge", "parametric memory",
     "latent semantic", "latent space", "dense vector representation",
     "high-dimensional", "lower-dimensional", "dimensionality",
     "approximate nearest neighbour", "approximate nearest neighbor",
-    "cosine similarity", "vector space", "embedding space",
-    "inference-time", "architectural paradigm", "semantic similarity",
-    "transformer-based", "encoder", "corpus", "corpora",
+    "inference-time", "architectural paradigm", "transformer-based",
+    "generative paradigm", "epistemic", "veridicality",
 ]
 
 # Idioms and figures of speech. The reader learned English as a second or third
@@ -56,15 +63,40 @@ MAX_MEAN_SENTENCE_WORDS = 25
 
 
 def _sentences(text: str) -> list[str]:
-    """Split prose into sentences, ignoring code blocks, headings and lists."""
+    """Split readable prose into sentences.
+
+    List items ARE measured. An earlier version skipped any line beginning with
+    a bullet or "1."-"3.", which left a large hole: much of a lesson's real
+    explanation lives inside bullets, and an 80-word numbered sentence sailed
+    through the readability check untouched. Only the list MARKER is stripped
+    now -- the sentence after it counts like any other.
+
+    Genuinely non-prose is still excluded: fenced code, headings and tables.
+    """
     text = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
-    lines = [
-        ln for ln in text.splitlines()
-        if not ln.strip().startswith(("#", "|", ">", "*", "-", "1.", "2.", "3."))
-    ]
-    prose = " ".join(lines)
-    parts = re.split(r"(?<=[.!?])\s+", prose)
-    return [p.strip() for p in parts if len(p.split()) > 2]
+    text = re.sub(r"`[^`]*`", " ", text)
+
+    sentences: list[str] = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith(("#", "|", ">")):
+            continue          # heading, table row, blockquote
+        if set(line) <= set("-=| "):
+            continue          # table rule / horizontal rule
+        # Strip the list marker, keep the sentence: "- ", "* ", "12. ", "a) "
+        line = re.sub(r"^(?:[-*+]|\d{1,2}[.)]|[a-z][.)])\s+", "", line)
+
+        # Split WITHIN a line only. Lines are never joined: a list item that
+        # ends without a full stop is its own unit, and concatenating it with
+        # the next item invents run-on sentences that were never written.
+        for part in re.split(r"(?<=[.!?])\s+", line):
+            part = part.strip()
+            if len(part.split()) > 2:
+                sentences.append(part)
+
+    return sentences
 
 
 def _check_sentence_length(lesson: str) -> GateResult | None:

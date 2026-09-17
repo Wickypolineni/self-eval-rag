@@ -142,5 +142,19 @@ Each of these is **false**. If the lesson asserts one, gate G5 fails.
   → Vector retrieval matches meaning. Keyword matching is a different retriever.
 - ❌ "The question and the chunks can use different embedding models."
   → They must share an embedding space.
+- ❌ "The model uses only the retrieved text" / "It answers only from the chunks."
+  → The prompt *instructs* the model to do this, but the instruction is a
+    guardrail, not a guarantee. The model still has its trained knowledge and
+    can ignore, misread, or go beyond the retrieved text. Say "the model is told
+    to use the retrieved text", not "the model uses only the retrieved text".
+- ❌ "Fine-tuning cannot cite sources."
+  → A fine-tuned model has no retrieved passages to point at, so citation is not
+    a natural property of it — but this is about what the architecture makes
+    available, not an absolute impossibility. Prefer "RAG can cite the chunks it
+    retrieved; fine-tuning alone gives the model nothing to point to."
+- ❌ "RAG guarantees the answer is correct / accurate / up to date."
+  → RAG supplies external text. If that text is wrong or stale, the answer can be
+    wrong or stale. Use "usually", "helps", "reduces" — never "ensures",
+    "always", or "will be correct".
 - ❌ "RAG is a model" / "RAG is a type of language model."
   → RAG is an architecture/technique that combines retrieval with a language model.

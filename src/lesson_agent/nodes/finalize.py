@@ -145,11 +145,19 @@ def persist_memory(state: LessonState) -> LessonState:
         for g in att.verdict.failed_gates:
             failures.append({"gate_id": g.gate_id, "evidence": g.evidence or ""})
 
+    # The gates still failing on the FINAL attempt are the ones that actually
+    # stopped this run. Everything else was fixed along the way.
+    final_verdict = state.get("verdict")
+    terminal = (
+        [g.gate_id for g in final_verdict.failed_gates] if final_verdict else []
+    )
+
     data = store.record_run(
         topic=state["topic"],
         passed=state.get("status") == "passed",
         attempts=state.get("attempt", 0),
         failures=failures,
+        terminal_failed_gates=terminal,
     )
 
     log.node("PERSIST_MEMORY", f"run #{data['total_runs']} recorded")

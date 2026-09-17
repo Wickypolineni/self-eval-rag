@@ -2,59 +2,66 @@
   "gates": [
     {
       "gate_id": "G1",
-      "passed": false,
-      "reasoning": "Contains graduate-level terminology unsuitable for an absolute beginner: parametric knowledge, latent semantic, dense vector representation, high-dimensional, dimensionality, approximate nearest neighbour. Found by lookup, not judgement.",
-      "evidence": "capacity for intricate pattern recognition within vast corpora, fundamentally operate on parametric knowledge assimilated during their pre-training phase. This intrinsic reliance renders them suscept",
-      "fix_instruction": "Remove or replace these terms entirely: parametric knowledge, latent semantic, dense vector representation, high-dimensional, dimensionality, approximate nearest neighbour. Use everyday words. For example say 'a list of numbers that captures meaning' rather than 'dense vector representation'."
-    },
-    {
-      "gate_id": "G2",
-      "passed": false,
-      "reasoning": "The lesson mentions the five core concepts but the Augmentation and Generation steps are not fully explained for a beginner; the Augmentation section is cut off and Generation is not given as its own explained step.",
-      "evidence": "## Augmentation: Contextualizing the Generative Prompt\n\nFollowing the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
-      "fix_instruction": "Add full, beginner-level explanations for Augmentation and Generation. Augmentation should explicitly say that retrieved text is placed into the model's prompt (with an instruction like 'use only this context'), and mention the guardrail to say 'I don't know' if context lacks the answer. Generation should explain that the LLM reads this augmented prompt and writes a grounded answer and can include citations. Also include the two phases (indexing and querying) clearly."
-    },
-    {
-      "gate_id": "G3",
-      "passed": false,
-      "reasoning": "The lesson states what RAG is and why it matters but does not clearly explain how RAG works end-to-end in a way a beginner can follow; key how-step details (building the prompt, the exact query-time steps, and the role of the embedding model versus the LLM) are missing or incomplete.",
-      "evidence": "Following the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
-      "fix_instruction": "Add a short explicit 'What / Why / How' section at the start or end. For 'How' give a numbered list of the online query-time steps: (1) embed the question with the same embedding model, (2) retrieve top-k chunks from the store, (3) assemble prompt: include instruction + retrieved chunks + user question, (4) run the LLM on this prompt to generate the answer. Explain indexing separately."
-    },
-    {
-      "gate_id": "G4",
-      "passed": false,
-      "reasoning": "There is no concrete worked example that traces a real user question through chunking, embedding, retrieval, augmentation, and generation. The lesson remains definitional.",
-      "evidence": "Once textual information has been transformed into dense vector representations, these embeddings are systematically indexed and stored within a specialized data structure known as a vector store.",
-      "fix_instruction": "Add one worked example end-to-end. Example: start with a user question (e.g., 'How do I reset my company email password?'), show a small document split into chunks, show example embeddings as short number lists (or simplified labels), show which chunks are retrieved, show the assembled prompt the model gets, and show a sample final answer with citations. Keep numbers and text small and simple."
-    },
-    {
-      "gate_id": "G5",
       "passed": true,
-      "reasoning": "The factual claims align with the grounding document. The lesson does not assert any of the listed common misconceptions (it does not say RAG retrains models or eliminates hallucination, and it describes vector stores and ANN appropriately).",
+      "reasoning": "All technical terms used are defined before use in simple language: 'language models', 'hallucination', 'embedding', 'vector store', 'chunk', 'augmentation', and 'generation' are explained at first use without relying on other undefined jargon.",
+      "evidence_type": "quoted_span",
       "evidence": null,
       "fix_instruction": null
     },
     {
-      "gate_id": "G6",
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "The lesson explains the five core concepts: the problems RAG solves, embeddings, the vector store and retrieval process, augmentation, and generation, each with beginner-level explanations.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly covers WHAT RAG is (title and opening), WHY it matters (section 'Why RAG Matters'), and HOW it works (sections on embeddings, vector store, augmentation, and generation).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
       "passed": false,
-      "reasoning": "Sentences are too long for this reader: longest is 43 words (limit 35), mean is 29.4 (limit 25). Measured, not judged.",
-      "evidence": "RAG directly confronts these challenges by providing a mechanism for LLMs to access and synthesize information from a dynamic, external knowledge base at inference time, thereby mitigating the incidence of unsupported assertions and enhancing the contextual relevance and factual fidelity of their outputs.",
-      "fix_instruction": "Break long sentences up. No sentence over 35 words, and keep the average under 25. One idea per sentence."
+      "reasoning": "The lesson uses useful analogies but does not provide a concrete worked example that traces a real user question through the pipeline end-to-end with actual text/chunks and the model's final answer.",
+      "evidence_type": "missing_requirement",
+      "evidence": "the lesson contains no concrete worked example that traces a real user question through indexing, retrieval, augmentation, and generation using actual text or chunks.",
+      "fix_instruction": "Add a step-by-step worked example: pick a sample user question, show how a document is chunked, show example chunk texts, show embeddings (described simply), show which top-k chunks are retrieved, show the augmented prompt assembled, and show the model's final answer citing the chunks."
+    },
+    {
+      "gate_id": "G5",
+      "passed": false,
+      "reasoning": "The lesson contains a statement that implies RAG guarantees correct information, which contradicts the grounding document's caution that RAG reduces but does not eliminate hallucination and retrieved text may be wrong.",
+      "evidence_type": "quoted_span",
+      "evidence": "RAG helps with all these problems. It gives the computer program the correct and new information it needs, right when it asks a question.",
+      "fix_instruction": "Replace the sentence with a careful statement such as: 'RAG helps by supplying relevant and up-to-date information from external text at query time. This usually reduces mistakes, but the retrieved sources can be wrong, and the model can still make errors.'"
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is simple, sentences are short and direct, technical terms are explained with clear everyday analogies (library, exam), and there are no idioms or culturally specific references that would confuse the target reader.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G7",
-      "passed": false,
-      "reasoning": "The lesson sometimes uses terms before defining them and the flow ends abruptly (Augmentation is cut off). This forces the reader to hold unexplained ideas and breaks the teaching sequence.",
-      "evidence": "Following the successful retrieval of semantically relevant document chunks, the augmentation phase critically integrates this external information into the LLM",
-      "fix_instruction": "Reorder and complete the lesson so each idea is introduced before it is used. Start with 'What is RAG' then 'Why RAG matters', then the two phases (indexing and querying), then detailed steps (chunking, embedding, storing, retrieving, augmenting, generating). Ensure the Augmentation and Generation sections are complete and follow the retrieval section directly."
+      "passed": true,
+      "reasoning": "The lesson flows in a logical order: it defines RAG, explains why it is useful, then follows the pipeline steps (embeddings → retrieval → augmentation → generation) without forward references that require unresolved ideas.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
     }
   ],
   "advisory_scores": {
-    "beginner_friendliness": 1,
-    "teaching_flow": 2,
-    "example_quality": 1,
-    "concision": 2
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 2,
+    "concision": 4
   },
-  "summary": "The lesson is factually accurate but written at a high technical level. Major problems: unexplained jargon at first use, missing or incomplete how-level steps (augmentation and generation), no concrete worked example, and language too advanced for the target reader. Revise by simplifying language, defining terms at first use, adding a clear 'What/Why/How' structure, and including a step-by-step worked example."
+  "summary": "Overall the lesson is clear, well-structured, and uses accessible analogies. Two gates fail: G4 (no concrete end-to-end worked example) and G5 (an assertion that RAG provides 'correct' information, implying a guarantee). Fix both by adding an explicit worked example and by softening the claim about guaranteed correctness."
 }

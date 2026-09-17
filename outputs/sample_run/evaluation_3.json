@@ -1,0 +1,67 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "Technical terms that appear (language model, hallucination, embedding, vector store, chunking, augmentation, generation, indexing, querying) are introduced and explained before being relied on. Definitions use simple language and avoid unexplained jargon.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "All five core concepts are present and explained: the problem RAG solves (knowledge cutoff, private data, hallucination), embeddings, the vector store and retrieval, augmentation (adding retrieved text to the prompt), and generation (model answering from the augmented prompt).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly covers WHAT RAG is (title and opening), WHY it matters (section 'Why RAG Matters'), and HOW it works (sections on embeddings, vector store, augmentation, generation and the step-by-step example).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "A concrete, end-to-end worked example (company 'Leave Policy') traces indexing, chunking, embedding, storing, querying, retrieval, augmentation, and generation for a real question.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "reasoning": "Factual claims align with the grounding document. The lesson avoids listed misconceptions (does not claim RAG retrains models, does not claim it eliminates hallucination, notes separate embedding model and that original text is stored alongside embeddings, and warns the instruction is only a guardrail).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is simple, analogies are concrete (exam, library, book pages), sentences are mostly short and direct, and there are no idioms or culturally specific references likely to confuse the target reader.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "The lesson flows logically from what and why to components and then an end-to-end example. Concepts are introduced before being used and there are no unresolved forward references.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 5,
+    "concision": 4
+  },
+  "summary": "Overall the lesson is well-structured, accessible, and factually accurate against the grounding document. It defines key terms before use, covers all core concepts, and gives a clear end-to-end example appropriate for the target reader."
+}

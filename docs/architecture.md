@@ -148,6 +148,43 @@ genuinely require reading comprehension, and put a deterministic floor under the
 ones that do not. It is cheaper, it is faster, and it cannot be talked out of a
 failure.
 
+## 4c. Two fail-open defects, and the rule they taught
+
+Both were found in review, and both had the same shape: a safety mechanism that,
+when it could not do its job, quietly approved content instead of refusing.
+
+**Absence could not be reported.** `GateResult` required a verbatim quote for
+every failure, and the evaluator prompt told the judge that if it could not find
+a span to quote, the gate passes. But G2, G3 and G4 are coverage gates — they
+fail because something is *missing*, and absence cannot be quoted. The two rules
+together meant a lesson with no worked example and no explanation of embeddings
+could be approved, and the system would report that it had checked.
+
+Fixed by modelling the two shapes a failure actually takes: `quoted_span` for
+"the lesson says something wrong" and `missing_requirement` for "the lesson
+omits something required". Evidence is still mandatory for both — a
+`missing_requirement` must state precisely what is absent.
+
+**An unverifiable citation became a pass.** When the judge failed a gate but
+cited text not present in the lesson, the code set `passed = True` and moved on.
+The reasoning at the time was that a hallucinated citation should not drive a
+pointless retry. That reasoning was wrong: it cannot distinguish a judge that
+imagined a problem from a judge that found a real one and quoted it sloppily,
+and it resolves that ambiguity in the most dangerous direction — approving
+content that had just been rejected.
+
+Fixed by discarding the whole verdict and re-requesting it once. If the second
+verdict is also untrustworthy, the run raises rather than shipping.
+
+**The rule:** when a check cannot complete, it must refuse, not approve. Every
+degradation path in a quality gate should be examined for which way it falls,
+because the failure is silent and looks exactly like success.
+
+Note the asymmetry with the generator, which degrades *open* on a parse failure
+(it falls back to raw text and carries on). That is correct, and the difference
+is the point: a generator failure produces content that still gets judged, while
+an evaluator failure produces content that nothing has judged.
+
 ## 5. The router
 
 ```python
