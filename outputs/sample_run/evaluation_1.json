@@ -3,58 +3,58 @@
     {
       "gate_id": "G1",
       "passed": true,
-      "reasoning": "Technical terms used in the lesson (RAG, LLM, embedding, vector, vector store, retrieval, prompt, hallucinate) are introduced and explained in simple language at or before their first use. Definitions do not rely on unexplained jargon.",
+      "reasoning": "Technical terms that the lesson uses (RAG, embedding, vector store, retrieval) are defined at or before their first use with simple language and analogies. Definitions do not rely on undefined jargon.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G2",
-      "passed": true,
-      "reasoning": "All five core concepts are present and explained for a beginner: the problem RAG solves, embeddings, the vector store and retrieval, augmentation, and generation.",
-      "evidence": null,
-      "fix_instruction": null
+      "passed": false,
+      "reasoning": "The lesson omits several of the five core concepts required: it does not explain RAG's handling of private data, nor does it cover chunking, the indexing vs querying phases, augmentation (inserting retrieved text into the prompt), or the generation step (model producing an answer from augmented prompt).",
+      "evidence": "Imagine you have a very smart student. This student knows a lot of general information. But sometimes, you ask a question about a very specific topic. The student might not know the exact answer. They might even make up an answer that sounds right but is wrong. This is like a computer model. It knows general things, but not every specific detail from every book in the world.",
+      "fix_instruction": "Add clear, separate short paragraphs that explicitly cover each of the five required concepts: (1) the three problems RAG solves (knowledge cutoff, private/company data access, hallucination) with brief examples for each; (2) embeddings and that they are produced by a separate embedding model; (3) the vector store plus chunking and how indexing works offline; (4) augmentation — how retrieved chunks are inserted into the model prompt with an instruction to use only that context; and (5) generation — the model reading the augmented prompt and producing an answer (and citing sources). Keep each explanation simple and label them so a beginner can find them."
     },
     {
       "gate_id": "G3",
-      "passed": true,
-      "reasoning": "The lesson explains WHAT RAG is (a way to give new information to an LLM), WHY it matters (fixes knowledge cutoff, private data, reduces hallucination), and HOW it works (embedding→retrieve→augment→generate) in separate sections.",
-      "evidence": null,
-      "fix_instruction": null
+      "passed": false,
+      "reasoning": "The lesson gives a partial WHAT and WHY but does not fully explain HOW RAG works end-to-end. It stops at retrieval and never shows the augmentation and generation steps or the two-phase indexing/querying structure required for a beginner to answer how RAG actually operates.",
+      "evidence": "When you ask a question, your question is also turned into numbers (an embedding). The vector store then quickly finds the stored numbers that are most similar to your question",
+      "fix_instruction": "Add an explicit 'What / Why / How' section header. Under 'How' describe the two phases clearly: Indexing (chunking documents, embedding each chunk, storing in a vector store) and Querying (embed question, retrieve top-k chunks, assemble augmented prompt with an instruction to use the context only, then generation). Show the flow in a few simple numbered steps so a beginner can repeat it."
     },
     {
       "gate_id": "G4",
-      "passed": true,
-      "reasoning": "The lesson contains a concrete, worked example that traces a real question (returning a broken phone) through retrieval, augmentation, and generation.",
-      "evidence": null,
-      "fix_instruction": null
+      "passed": false,
+      "reasoning": "The lesson uses helpful analogies (student/library/fruits) but lacks a concrete worked example that traces a real user question through indexing → retrieval → augmentation → generation, with sample text and an example of a final grounded answer.",
+      "evidence": "This is like giving the student a small, special library for each question. The student can then read from this library to give a correct answer.",
+      "fix_instruction": "Add one concrete worked example. For example: start with a short document (2–3 sentences) that is indexed and chunked, show the embedding step in plain terms, show a user question, show the retrieved chunk(s) (exact text), show the assembled augmented prompt (the instruction plus the chunks and the question), and show the model's final answer that cites the chunk. Keep all texts short and simple."
     },
     {
       "gate_id": "G5",
-      "passed": false,
-      "reasoning": "The lesson asserts that RAG 'solves' the listed problems in a way that implies it fully eliminates hallucination. This contradicts the grounding document, which states that RAG reduces hallucination but does not eliminate it.",
-      "evidence": "RAG solves these problems. It helps the LLM get new, correct, and specific information.",
-      "fix_instruction": "Replace the sentence with a careful statement: e.g. 'RAG helps address these problems by supplying relevant external text at query time. It reduces hallucination and provides up-to-date and private information, but it does not eliminate errors — the model can still misread or contradict retrieved text.' Also add a short note that embeddings are produced by a separate embedding model and that, in practice, the same embedding model must be used for both documents and queries."
+      "passed": true,
+      "reasoning": "The factual claims in the lesson match the grounding document: RAG is presented as an inference-time retrieval technique, embeddings are numeric representations of meaning, vector stores hold embeddings and support similarity search, and retrieval is used to augment prompts. The lesson does not assert any of the listed misconceptions from the grounding document.",
+      "evidence": null,
+      "fix_instruction": null
     },
     {
       "gate_id": "G6",
       "passed": true,
-      "reasoning": "Language is simple, sentences are short and direct, no idioms or culture-specific references, and the library/friend analogy is appropriate for the target reader.",
+      "reasoning": "Language is simple, sentences are short, analogies are culturally neutral and easy to picture (student, library, fruits). There are no idioms or culturally specific references that would confuse the target reader.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G7",
       "passed": true,
-      "reasoning": "The lesson follows a clear, logical order: intro → problem → embeddings → retrieval → augmentation → generation. Concepts are not used before being introduced.",
+      "reasoning": "The lesson's order is logical: problem → embeddings → storage/retrieval. Nothing is used before it is introduced. The main shortcomings are missing steps (augmentation/generation) rather than flow problems.",
       "evidence": null,
       "fix_instruction": null
     }
   ],
   "advisory_scores": {
-    "beginner_friendliness": 4,
-    "teaching_flow": 4,
-    "example_quality": 4,
+    "beginner_friendliness": 3,
+    "teaching_flow": 3,
+    "example_quality": 2,
     "concision": 4
   },
-  "summary": "The lesson is well-structured and accessible for a limited-English beginner. However, it overstates RAG's effectiveness by implying it fully 'solves' hallucination; revise that claim and add brief facts about how embeddings are produced (a separate embedding model) and the need to use the same embedding model for queries and documents."
+  "summary": "The lesson is clear and simply written and correctly explains embeddings and retrieval at a basic level, but it misses several essential RAG components. To be usable by a beginner, add the missing core concepts (private data, chunking, indexing vs querying, augmentation, generation) and one concrete end-to-end worked example."
 }

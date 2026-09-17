@@ -60,6 +60,15 @@ def _write_outputs(state: LessonState) -> None:
     run_dir = OUTPUT_DIR / "sample_run"
     run_dir.mkdir(parents=True, exist_ok=True)
 
+    # Clear prior attempts before writing. A run that took 2 attempts must not
+    # inherit attempt_3.md from an earlier 3-attempt run: the directory would
+    # then contradict run_summary.json, and the evidence of what this run
+    # actually did would be wrong.
+    for old_file in run_dir.glob("attempt_*.md"):
+        old_file.unlink()
+    for old_file in run_dir.glob("evaluation_*.json"):
+        old_file.unlink()
+
     for att in state.get("history", []):
         (run_dir / f"attempt_{att.attempt_number}.md").write_text(att.lesson, encoding="utf-8")
         if att.verdict is not None:

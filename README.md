@@ -160,25 +160,31 @@ Both directories under `outputs/` are committed output from actual runs.
 ### A passing run — [`outputs/sample_run/`](outputs/sample_run/)
 
 ```
-attempt 1  →  REJECT — failed G5 (factual accuracy)
+attempt 1  →  REJECT — failed G2 (missing concepts), G3 (no end-to-end HOW),
+                       G4 (analogies but no worked example)
 attempt 2  →  PASS   — 7/7 gates
 ```
 
-The judge quoted this to fail G5:
+The judge failed G4 on a draft that *looked* well taught — it had a student, a
+library and a fruit analogy. What it lacked was a single real question traced
+through the pipeline:
 
-> "RAG solves these problems. It helps the LLM get new, correct, and specific
-> information."
+> "This is like giving the student a small, special library for each question."
 
-That contradicts the grounding document, which states RAG *reduces* hallucination
-without eliminating it. An ungrounded judge had no way to catch this — the
-sentence reads fluently and confidently. It is wrong only against a source of
-truth.
+A score-based rubric would have rewarded that prose. A binary gate asks a
+narrower question — is there a worked example, yes or no — and the answer was no.
 
 What the generator reported changing on retry:
 
-> "G5: Replaced 'RAG solves these problems' with a more careful statement about
-> reducing hallucination, and added a note about using the same embedding model
-> for documents and queries."
+> "G2: Added explicit explanations for knowledge cutoff, private data, and
+> hallucination as problems RAG solves. Added separate explanations for
+> chunking, indexing vs querying, augmentation..."
+
+Across other runs the same evaluator has also caught factual errors on G5 — for
+instance a draft claiming RAG makes answers "correct and specific", which
+contradicts the grounding document's statement that RAG *reduces* hallucination
+without eliminating it. That sentence reads fluently and confidently; it is wrong
+only against a source of truth.
 
 ### A run that refused to ship — [`outputs/escalation_run/`](outputs/escalation_run/)
 

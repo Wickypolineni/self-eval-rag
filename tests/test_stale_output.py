@@ -57,3 +57,35 @@ def test_escalation_with_no_prior_lesson_is_fine(tmp_path, monkeypatch):
     monkeypatch.setattr(finalize_mod, "OUTPUT_DIR", tmp_path)
     finalize_mod.flag_for_human(_failing_state())
     assert not (tmp_path / "final_lesson.md").exists()
+
+
+def test_sample_run_does_not_inherit_a_longer_previous_run(tmp_path, monkeypatch):
+    """A 2-attempt run must not leave attempt_3.md from an earlier 3-attempt run.
+
+    Second regression from the same family as the stale-lesson bug: outputs were
+    written over the top of a previous run instead of replacing it, so the
+    evidence directory could disagree with its own run_summary.json.
+    """
+    monkeypatch.setattr(finalize_mod, "OUTPUT_DIR", tmp_path)
+    run_dir = tmp_path / "sample_run"
+    run_dir.mkdir()
+    (run_dir / "attempt_3.md").write_text("stale draft from a longer run", encoding="utf-8")
+    (run_dir / "evaluation_3.json").write_text("{}", encoding="utf-8")
+
+    v = Verdict(gates=[GateResult(gate_id=f"G{i}", passed=True, reasoning="ok")
+                       for i in range(1, 8)], summary="good")
+    s = initial_state("Introduction to RAG", "beginner", max_retries=2)
+    s["attempt"] = 2
+    s["verdict"] = v
+    s["lesson"] = "the passing lesson"
+    s["history"] = [
+        Attempt(attempt_number=1, lesson="draft 1", verdict=v),
+        Attempt(attempt_number=2, lesson="draft 2", verdict=v),
+    ]
+
+    finalize_mod.finalize(s)
+
+    assert not (run_dir / "attempt_3.md").exists(), "stale third attempt survived"
+    assert not (run_dir / "evaluation_3.json").exists()
+    assert (run_dir / "attempt_1.md").exists()
+    assert (run_dir / "attempt_2.md").exists()

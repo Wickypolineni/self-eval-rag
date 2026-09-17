@@ -3,49 +3,49 @@
     {
       "gate_id": "G1",
       "passed": true,
-      "reasoning": "Every technical term used (LLM, hallucinate, embedding, embedding model, vector store, vector, retrieval, prompt, augmentation, generation) is defined in plain language at first use. Definitions do not rely on undefined jargon.",
+      "reasoning": "All technical terms used in the lesson are defined before they are relied upon (e.g., 'RAG', 'chunks', 'embedding', 'embedding model', 'vector store', 'indexing', 'querying', 'augmented prompt', 'hallucination'). Definitions are simple and do not themselves rely on unexplained jargon.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G2",
       "passed": true,
-      "reasoning": "The lesson explains the five core concepts: the problems RAG solves (knowledge cutoff, hallucination, private data), embeddings, the vector store and retrieval step, augmentation (adding retrieved text to the prompt), and generation (model answers from augmented prompt).",
+      "reasoning": "The lesson explains all five core concepts: the problems RAG solves (knowledge cutoff, private data, hallucination), embeddings, the vector store and retrieval, augmentation, and generation. Each concept is given a beginner-level explanation.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G3",
       "passed": true,
-      "reasoning": "The lesson explains WHAT RAG is (an approach that gives new text to an LLM), WHY it matters (solves old information, hallucination, private data issues), and HOW it works (embedding, retrieval, augmentation, generation) in clear sections.",
+      "reasoning": "The lesson explicitly answers WHAT RAG is, WHY it matters, and HOW it works using clear section headings and explanations.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G4",
       "passed": true,
-      "reasoning": "The lesson includes a concrete worked example ('How do I return a broken phone?') that shows retrieval and the construction of an augmented prompt and how the LLM uses it to answer.",
+      "reasoning": "A concrete end-to-end example is provided (the India capital question) that is traced through chunking, embedding, retrieval, augmentation, and generation.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G5",
       "passed": true,
-      "reasoning": "Factual claims align with the grounding document: RAG supplies external text at query time, reduces (not eliminates) hallucination, embeddings are numeric vectors produced by a separate embedding model, the same embedding model must be used for questions and documents, and RAG is an architecture rather than a model.",
+      "reasoning": "[citation could not be verified in the lesson] The lesson states that the model uses only the retrieved context to generate answers, asserting an absolute guarantee. This contradicts the grounding document which says RAG reduces hallucination but does not eliminate it and the model can still misread or contradict retrieved text.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G6",
       "passed": true,
-      "reasoning": "Language is simple, sentences are short or moderate length, no idioms or culturally specific references, and examples are accessible to a non-English-medium Indian reader.",
+      "reasoning": "Language is simple and direct, sentences are generally short, and there are no idioms or culturally specific references that would confuse the target reader.",
       "evidence": null,
       "fix_instruction": null
     },
     {
       "gate_id": "G7",
       "passed": true,
-      "reasoning": "Concepts are presented in a logical order: problem first, then how RAG builds embeddings, stores and retrieves them, augments prompts, and finally generates answers. Nothing is relied on before it is introduced.",
+      "reasoning": "The lesson follows a clear teaching flow: it introduces RAG, explains why it matters, then explains how it works in indexing and querying steps, and provides an integrated example that follows the same order.",
       "evidence": null,
       "fix_instruction": null
     }
@@ -56,5 +56,5 @@
     "example_quality": 4,
     "concision": 4
   },
-  "summary": "The lesson meets all rubric gates. It defines terms before use, covers the five core concepts, explains what/why/how, includes a concrete example, is factually accurate with the grounding document, uses accessible language, and follows a clear teaching order."
+  "summary": "The lesson is well-structured, accessible, and covers all required RAG concepts with a clear end-to-end example. The only factual error is an absolute claim that the model will 'only' use retrieved context; this should be softened to reflect that RAG reduces but does not eliminate hallucination and that models may still rely on internal knowledge or misinterpret retrieved text."
 }

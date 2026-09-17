@@ -9,10 +9,12 @@
   },
   "gates_failed_by_attempt": {
     "1": [
-      "G5"
+      "G2",
+      "G3",
+      "G4"
     ],
     "2": []
   },
   "human_review_reason": null,
-  "finished_at": "2026-09-17T13:37:22+00:00"
+  "finished_at": "2026-09-17T13:40:50+00:00"
 }

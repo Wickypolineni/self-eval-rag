@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
-  "total_runs": 5,
+  "total_runs": 6,
   "gate_failure_counts": {
+    "G4": 6,
     "G1": 5,
-    "G4": 5,
+    "G2": 4,
+    "G3": 4,
     "G6": 4,
-    "G2": 3,
-    "G3": 3,
     "G5": 3,
     "G7": 3
   },
@@ -192,9 +192,30 @@
       "gate_id": "G5",
       "evidence": "RAG solves these problems. It helps the LLM get new, correct, and specific information.",
       "timestamp": "2026-09-17T13:37:22+00:00"
+    },
+    {
+      "run": 6,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G2",
+      "evidence": "Imagine you have a very smart student. This student knows a lot of general information. But sometimes, you ask a question about a very specific topic. The student might not know the exact answer. They might even make up an answer that sounds right but is wrong. This is like a computer model. It knows general things, but not every specific detail from every book in the world.",
+      "timestamp": "2026-09-17T13:40:50+00:00"
+    },
+    {
+      "run": 6,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G3",
+      "evidence": "When you ask a question, your question is also turned into numbers (an embedding). The vector store then quickly finds the stored numbers that are most similar to your question",
+      "timestamp": "2026-09-17T13:40:50+00:00"
+    },
+    {
+      "run": 6,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "This is like giving the student a small, special library for each question. The student can then read from this library to give a correct answer.",
+      "timestamp": "2026-09-17T13:40:50+00:00"
     }
   ],
-  "last_updated": "2026-09-17T13:37:22+00:00",
+  "last_updated": "2026-09-17T13:40:50+00:00",
   "run_history": [
     {
       "run": 1,
@@ -266,6 +287,18 @@
         "G5"
       ],
       "timestamp": "2026-09-17T13:37:22+00:00"
+    },
+    {
+      "run": 6,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 2,
+      "failed_gates": [
+        "G2",
+        "G3",
+        "G4"
+      ],
+      "timestamp": "2026-09-17T13:40:50+00:00"
     }
   ]
 }
