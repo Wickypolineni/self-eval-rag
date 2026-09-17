@@ -91,7 +91,7 @@ Using ONLY the information above, please answer this question: "What are the new
 
 #### Step 6: Creating the Answer (Generation)
 
-Finally, the language model receives this augmented instruction. The model reads the instruction and the text chunks provided. It is *told* to base its answer on the information given in the chunks. This instruction helps the model to produce answers that are more likely to be correct and less likely to be made-up. However, the model can sometimes still make a mistake, misread the text, or go beyond the provided information.
+Finally, the language model receives this augmented instruction. The model reads the instruction and the text chunks provided. It then writes an answer based *only* on the information given in the chunks.
 
 For our example, the language model would read the augmented prompt and might generate an answer like this:
 
@@ -103,4 +103,4 @@ For our example, the language model would read the augmented prompt and might ge
 
 The information provided does not mention any other new rules for train tickets."
 
-This final step is "generation." The language model generates the answer. Because the model is *told* to use the retrieved text, it is less likely to make up facts. It can also point to *which* chunk gave the information, like citing a book page. This helps you check if the answer is correct. RAG helps reduce made-up answers, but sometimes the model can still make a mistake when reading the provided text.
+This final step is "generation." The language model generates the answer. Because the model is told to use *only* the retrieved text, it is less likely to make up facts. It can also point to *which* chunk gave the information, like citing a book page. This helps you check if the answer is correct. RAG helps reduce made-up answers, but sometimes the model can still make a mistake when reading the provided text.

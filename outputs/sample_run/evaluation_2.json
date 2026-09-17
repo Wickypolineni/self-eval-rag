@@ -1,0 +1,67 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "All technical terms used (language model, hallucination, chunk, embedding, embedding model, vector store, retrieval, augmentation, prompt, indexing, querying, generation) are defined in simple language at or before their first use. Definitions avoid unexplained jargon.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "The lesson clearly explains the five core concepts: the problem RAG solves (three problems), embeddings (turning text into numbers and what similarity means), the vector store and retrieval step, augmentation (adding chunks to the prompt), and generation (model answering from augmented prompt).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly answers WHAT RAG is (section 'What is RAG?'), WHY it matters ('Why RAG Matters'), and HOW it works ('How RAG Works: A Step-by-Step Example'). The structure is named and presented clearly.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "Contains a concrete, worked example (train ticket example) that traces a real question through chunking, embedding, retrieval, augmentation, and generation, including example chunks, augmented prompt, and final answer.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": false,
+      "reasoning": "The lesson asserts that the model writes answers 'based only' on retrieved chunks, which contradicts the grounding document's explicit warning that instructing the model to use only retrieved text is a guardrail but not a guarantee.",
+      "evidence_type": "quoted_span",
+      "evidence": "It then writes an answer based *only* on the information given in the chunks.",
+      "fix_instruction": "Change the sentence to make clear this is an instruction/guardrail, not a guarantee. For example: 'The model is instructed to base its answer on the retrieved chunks, which reduces the chance of making things up, but the model can still ignore or misread the provided text and may produce errors.' Also remove any absolute phrasing elsewhere that implies RAG forces the model to use only retrieved text."
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is simple, sentences are short and direct, no idioms or culturally obscure references (Aadhar example is appropriate for Indian readers). Explanations and examples use everyday images (book, library) that suit the target reader.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "Teaching flow is logical: what → why → how, with indexing/querying split and steps presented in order. No concept is relied on before being introduced.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 5,
+    "concision": 4
+  },
+  "summary": "The lesson is overall clear, well-structured, and suitable for limited-English beginners, with a strong concrete example. It fails one factual gate (G5) because it states the model writes answers 'based only' on retrieved chunks — this must be corrected to say the instruction is a guardrail and not a guarantee."
+}

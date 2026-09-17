@@ -1,7 +1,9 @@
 """Structured evaluation output.
 
-The central design decision here: a failed gate MUST carry a verbatim quote from
-the lesson. This is enforced by a model validator, not by politeness in a prompt.
+The central design decision here: a failed gate MUST carry evidence, enforced by
+a model validator rather than by politeness in a prompt. Evidence takes one of
+two shapes -- a verbatim quote when the lesson SAYS something wrong, or a precise
+statement of what is absent when the lesson OMITS something required.
 
 Why it matters: the standard objection to LLM-as-judge is that the judge simply
 agrees with the generator. A judge that must locate and quote the offending span

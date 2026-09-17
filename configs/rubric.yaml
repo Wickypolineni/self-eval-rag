@@ -8,8 +8,8 @@
 # no threshold to average past, no way for strong prose to compensate for a
 # missing concept. A lesson ships only if ALL gates pass.
 #
-# The advisory scores at the bottom are NOT ship-blocking. They exist to give
-# the cross-run memory layer a gradient to learn from. Read them as telemetry.
+# The advisory scores at the bottom are NOT ship-blocking, and nothing consumes
+# them automatically. They are diagnostic telemetry. See the note beside them.
 #
 # This file is config, not code. Tuning the quality bar does not require
 # touching the graph.

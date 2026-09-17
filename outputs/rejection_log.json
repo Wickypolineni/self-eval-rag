@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "attempt": 1,
+    "what_failed": [
+      "G2",
+      "G3",
+      "G4"
+    ],
+    "why": [
+      {
+        "gate_id": "G2",
+        "reasoning": "The lesson explains the problem RAG solves, embeddings, and the vector store/retrieval and augmentation steps, but it does not explain the final Generation concept — how the language model reads the augmented prompt and produces the answer — so one of the five core concepts is missing.",
+        "evidence_type": "missing_requirement",
+        "evidence": "The lesson does not explain the Generation step: it never shows how the language model reads the augmented prompt and generates the final answer, nor mentions that the model can still misread retrieved text or cite sources.",
+        "required_fix": "Add a clear 'Generation' section that explains (1) the language model receives the augmented prompt and produces the final answer, (2) the model can cite retrieved chunks so users can verify facts, and (3) augmentation reduces but does not eliminate hallucination. Also state that this is the online/querying phase following retrieval."
+      },
+      {
+        "gate_id": "G3",
+        "reasoning": "The lesson gives WHAT RAG is and WHY it matters, but the HOW description is incomplete because the lesson stops during augmentation and never completes the end-to-end 'how' (including the Generation step and the explicit two-phase view of indexing vs querying).",
+        "evidence_type": "missing_requirement",
+        "evidence": "The lesson's 'How' section is incomplete — it stops during augmentation and does not complete the end-to-end 'how' showing generation or explicitly describing the two phases (indexing vs querying).",
+        "required_fix": "Explicitly label WHAT / WHY / HOW. Under HOW, present the two phases (indexing: chunking, embedding, storing; querying: embedding the question, retrieval, augmentation, generation) and finish the example through generation, noting where indexing is offline and querying is per question."
+      },
+      {
+        "gate_id": "G4",
+        "reasoning": "The lesson includes a concrete train-ticket example for chunking, embedding, and retrieval, but the worked example is cut off mid-augmentation and does not show the model producing the final answer. It therefore does not trace a real question end-to-end.",
+        "evidence_type": "missing_requirement",
+        "evidence": "There is no complete worked example tracing a real user question end-to-end; the train-ticket example stops mid-augmentation and does not show the model producing the final answer or citations.",
+        "required_fix": "Complete the train-ticket worked example: show the assembled augmented prompt, demonstrate the model's grounded answer (or a correct refusal if no info), and show how retrieved chunks would be cited. Make clear how the pieces flow from question to final answer."
+      }
+    ],
+    "changed_on_next_retry": "G2: Added a clear \"Generation\" section (Step 6) that explains how the language model receives the augmented prompt, produces an answer, and can cite sources. It also clarifies that RAG reduces but does not eliminate hallucination. G3: The \"How RAG Works\" section was restructured into two distinct phases: \"Part 1: Preparing Information (Indexing Phase - Done Ahead of Time)\" and \"Part 2: Answering Questions (Querying Phase - Done for Each Question)\". The lesson now explicitly covers all steps from chunking to generation, completing the end-to-end \"how\". G4: The train ticket example is now fully traced through the new \"Generation\" step. It shows the complete augmented prompt and a sample generated answer that cites the specific chunks of information, demonstrating an end-to-end flow from question to final, grounded answer."
+  },
+  {
+    "attempt": 2,
+    "what_failed": [
+      "G5"
+    ],
+    "why": [
+      {
+        "gate_id": "G5",
+        "reasoning": "The lesson asserts that the model writes answers 'based only' on retrieved chunks, which contradicts the grounding document's explicit warning that instructing the model to use only retrieved text is a guardrail but not a guarantee.",
+        "evidence_type": "quoted_span",
+        "evidence": "It then writes an answer based *only* on the information given in the chunks.",
+        "required_fix": "Change the sentence to make clear this is an instruction/guardrail, not a guarantee. For example: 'The model is instructed to base its answer on the retrieved chunks, which reduces the chance of making things up, but the model can still ignore or misread the provided text and may produce errors.' Also remove any absolute phrasing elsewhere that implies RAG forces the model to use only retrieved text."
+      }
+    ],
+    "changed_on_next_retry": "G5: Changed \"It then writes an answer based *only* on the information given in the chunks\" to \"It is *told* to base its answer on the information given in the chunks. This instruction helps the model to produce answers that are more likely to be correct and less likely to be made-up. However, the model can sometimes still make a mistake, misread the text, or go beyond the provided information.\" Also changed \"Because the model is told to use *only* the retrieved text\" to \"Because the model is *told* to use the retrieved text\"."
+  }
+]

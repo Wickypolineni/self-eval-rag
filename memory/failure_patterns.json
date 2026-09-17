@@ -1,44 +1,16 @@
 {
   "schema_version": 1,
-  "total_runs": 15,
+  "total_runs": 16,
   "gate_failure_counts": {
-    "G4": 14,
-    "G5": 11,
+    "G4": 15,
+    "G5": 12,
+    "G2": 9,
     "G1": 8,
-    "G2": 8,
-    "G3": 7,
+    "G3": 8,
     "G6": 7,
     "G7": 7
   },
   "recent_failures": [
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G7",
-      "evidence": "RAG addresses these challenges by decoupling the knowledge retrieval mechanism from the generative process, thereby enabling models to leverage external, continuously updated, non-parametric memory.",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G4",
-      "evidence": "\"Example: You work for a mobile phone company. A customer asks, \"How do I return my phone if it's broken?\" Your company has a special document with its return policy.\n\n#### Step 1: Indexing (Preparing Your Documents)\n\nBefore the LLM can find information, we need to prepare all the documents. Think of this like a librarian organizing books in a library.\n\n*   **Documents:** These are the pieces of information RAG can use. They can be web pages, company manuals, articles, or even private notes.\n\nFirst, we break down large documents into smaller pieces. These smaller pieces are called **chunks**.\n\n*   **Chunk:** A small, manageable part of a larger document. It's like breaking a big book into many small chapters or paragraphs.\n\nFor our example, the company's \"Return Policy\" document might be broken into chunks like this:\n\n*   **Chunk 1:** \"Our return policy allows returns within 30 days of purchase.\"\n*   **Chunk 2:** \"To return a broken phone, you must first contact customer service.\"\n*   **Chunk 3:** \"Once customer service approves, you will receive a return shipping label.\"\n*   **Chunk 4:** \"Refunds are processed within 5-7 business days after we receive the returned item.\"\n\nNext, we turn each chunk into a special number code. This code helps the computer understand the meaning of the chunk. These number codes are called **embeddings** or **vectors**.\n\n*   **Embedding** (or **Vector**): A list of numbers that represents the meaning of a word, sentence, or document chunk. If two chunks have similar meanings, their embeddings will be very similar.\n\nThink of it like giving each book chapter a unique shelf number and also a code that describes its topic (e.g., \"History-Ancient Rome\" or \"Science-Physics\"). Chapters about similar topics will have similar codes.\n\nThese embeddings are then stored in a special database called a **vector store**.\n\n*   **Vector store:** A special database that stores embeddings (number codes) and helps find similar ones very quickly. It's like a super-fast index for our library, but instead of words, it uses these number codes.\n\nSo, for our example, Chunk 1's embedding (number code) would be stored in the vector store, Chunk 2's embedding, and so on.\n\n#### Step 2: Retrieval (Finding Relevant Information)\n\nWhen you ask a question, RAG first turns your question into an embedding (number code), just like it did for the document chunks.\n\n*   **Query:** The question you ask the large language model.\n\nYour question: \"How do I return my phone if it's broken?\"\n\nThis question becomes its own embedding (number code).\n\nThen, RAG uses this question's embedding to search the **vector store**. It looks for document chunks whose embeddings are most similar to the question's embedding. This is like finding the books in the library whose topic codes match your question's topic code.\n\n*   **Retrieval:** The process of finding the most relevant document chunks from the vector store that are related to your question.\n\nThis search is very fast thanks to something called **Approximate Nearest Neighbour (ANN) search**.\n\n*   **Approximate Nearest Neighbour (ANN) search:** A quick way to find items (like embeddings) that are very similar to a given item, even in a very large collection. It's \"approximate\" because it finds very good matches quickly, not necessarily the absolute perfect match every time, but it\"",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G5",
-      "evidence": "Because the student (LLM) has the relevant books (chunks), its answer will be correct and specific to your company's policy.",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 5,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G5",
-      "evidence": "RAG solves these problems. It helps the LLM get new, correct, and specific information.",
-      "timestamp": "2026-09-17T13:37:22+00:00"
-    },
     {
       "run": 6,
       "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
@@ -290,9 +262,37 @@
       "gate_id": "G5",
       "evidence": "This answer uses only the information from Chunk 1.",
       "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 16,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G2",
+      "evidence": "The lesson does not explain the Generation step: it never shows how the language model reads the augmented prompt and generates the final answer, nor mentions that the model can still misread retrieved text or cite sources.",
+      "timestamp": "2026-09-17T15:34:09+00:00"
+    },
+    {
+      "run": 16,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G3",
+      "evidence": "The lesson's 'How' section is incomplete — it stops during augmentation and does not complete the end-to-end 'how' showing generation or explicitly describing the two phases (indexing vs querying).",
+      "timestamp": "2026-09-17T15:34:09+00:00"
+    },
+    {
+      "run": 16,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "There is no complete worked example tracing a real user question end-to-end; the train-ticket example stops mid-augmentation and does not show the model producing the final answer or citations.",
+      "timestamp": "2026-09-17T15:34:09+00:00"
+    },
+    {
+      "run": 16,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "It then writes an answer based *only* on the information given in the chunks.",
+      "timestamp": "2026-09-17T15:34:09+00:00"
     }
   ],
-  "last_updated": "2026-09-17T15:30:51+00:00",
+  "last_updated": "2026-09-17T15:34:09+00:00",
   "run_history": [
     {
       "run": 1,
@@ -491,6 +491,20 @@
       "failed_gates": [],
       "terminal_failed_gates": [],
       "timestamp": "2026-09-17T15:30:51+00:00"
+    },
+    {
+      "run": 16,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 3,
+      "failed_gates": [
+        "G2",
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "terminal_failed_gates": [],
+      "timestamp": "2026-09-17T15:34:09+00:00"
     }
   ]
 }

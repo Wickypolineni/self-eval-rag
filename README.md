@@ -89,20 +89,36 @@ generator. Three independent defences:
 [`grounding/rag_reference.md`](src/lesson_agent/grounding/rag_reference.md), a
 short factual reference including a list of common RAG misconceptions. Without a
 source of truth, "is this accurate?" is one model's opinion of another model's
-output — the exact failure this role exists to prevent. *We use retrieval to
-grade a lesson about retrieval.*
+output — the exact failure this role exists to prevent.
 
-**2. It must cite evidence.** Every failed gate must quote the offending span
-verbatim. This is enforced by a Pydantic validator that **raises** on an uncited
-failure — not by asking nicely in a prompt. A judge that must point at the
-problem cannot rubber-stamp.
+To be precise about what this is: the whole grounding file is injected into the
+evaluator's prompt. There is no retrieval step, no embedding, no vector store.
+It is a **grounded evaluator**, not a RAG pipeline. That works because the
+document is small and the topic is fixed; scaling to arbitrary topics would need
+a grounding document per topic, and selecting the right one *would* become a
+retrieval problem.
+
+**2. It must cite evidence.** Every failed gate must carry evidence, in one of
+two shapes: a verbatim `quoted_span` when the lesson says something wrong, or a
+`missing_requirement` stating precisely what is absent when the lesson omits
+something. This is enforced by a Pydantic validator that **raises** on an
+uncited failure — not by asking nicely in a prompt. A judge that must point at
+the problem cannot rubber-stamp.
+
+Both shapes are necessary. Demanding a quote for *every* failure made absence
+unreportable, since there is no text to quote when the text does not exist —
+and the evaluator resolved that contradiction by passing the gate.
 
 **3. It is a different vendor from the generator.** Google writes, OpenAI grades.
 A model grades its own prose more softly than a stranger's.
 
-**4. Cited quotes are verified against the lesson.** When the judge failed a gate
-citing text that did not appear in the lesson, the phantom finding was discarded
-rather than driving a pointless retry. This fired during a real run.
+**4. Cited quotes are verified against the lesson, and the verdict fails closed.**
+If a `quoted_span` failure cites text that is not in the lesson, the **entire
+verdict** is discarded and re-requested once; a second untrustworthy verdict
+stops the run. An earlier version flipped just that gate to passed, which was
+fail-open — it could not tell an imagined problem from a real one quoted
+sloppily, and resolved the ambiguity toward approving content it had just
+rejected.
 
 **5. Deterministic prechecks sit underneath the judge — because the judge failed.**
 
@@ -136,11 +152,13 @@ Requires Python 3.11+ and an [OpenRouter](https://openrouter.ai) key.
 
 ```bash
 git clone <this-repo> && cd rag-lesson-evaluator
-uv venv --python 3.12 && uv pip install -e ".[dev]"
+uv sync --extra dev          # installs the exact versions in uv.lock
 cp .env.example .env     # then paste your OpenRouter key into .env
 ```
 
-Without `uv`:
+`uv sync` installs from the committed `uv.lock`, so a clean clone gets the exact
+dependency versions this was built and tested against. Without `uv` you get a
+fresh resolve instead:
 
 ```bash
 python -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
@@ -206,36 +224,37 @@ Both directories under `outputs/` are committed output from actual runs.
 ### A passing run — [`outputs/sample_run/`](outputs/sample_run/)
 
 ```
-attempt 1  →  REJECT — all 7 gates
-attempt 2  →  REJECT — G5 (accuracy overclaim)
-attempt 3  →  PASS   — 7/7 gates
+attempt 1  →  REJECT — G2, G3, G4   (all three as missing_requirement)
+attempt 2  →  REJECT — G5           (quoted_span: an accuracy overclaim)
+attempt 3  →  PASS   — 7/7 gates    (advisory 5 / 5 / 5 / 4)
 ```
 
-Both failure shapes appear, which is the point.
+Both evidence shapes appear, which is the point.
 
-**Coverage gates failed on absence**, reported as `missing_requirement`:
+**Coverage gates failed on absence.** There is no text to quote, because the
+problem is that the text does not exist:
 
-> G2: "No explanation of the vector store and the retrieval step; no clear
-> description of augmentation..."
->
-> G4: "No concrete worked example tracing a real user question through the full
-> RAG pipeline appears anywhere in the lesson."
+> G4: "There is no complete worked example tracing a real user question
+> end-to-end; the train-ticket example stops mid-augmentation and does not show
+> the model producing an answer."
 
-There is no text to quote, because the problem is that the text does not exist.
 An earlier schema demanded a verbatim quote for *every* failure, which made
-absence literally unreportable — and the evaluator prompt resolved that
-contradiction by passing the gate. A lesson with no worked example would have
-shipped.
+absence unreportable — and the evaluator resolved that contradiction by passing
+the gate. A lesson with no worked example would have shipped.
 
-**Content gates failed on a quoted span.** Attempt 2's is worth reading:
+**The accuracy gate failed on a quoted span:**
 
-> "This answer uses only the information from Chunk 1."
+> "It then writes an answer based *only* on the information given in the chunks."
 
 That contradicts the grounding document: the prompt *instructs* the model to use
 the retrieved text, but the instruction is a guardrail, not a guarantee. It reads
-fluently and confidently, and is wrong only against a source of truth. An earlier
-build shipped this exact claim — the judge missed it — which is why the overclaim
-family was added to the grounding document's misconception list.
+fluently and confidently, and is wrong only against a source of truth.
+
+Attempt 3's changelog shows the repair was targeted, not a rewrite:
+
+> "G5: Changed 'It then writes an answer based *only* on the information given
+> in the chunks' to 'It is *told* to base its answer on the information given in
+> the chunks...'"
 
 ### A run that refused to ship — [`outputs/escalation_run/`](outputs/escalation_run/)
 

@@ -1,0 +1,67 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "All technical terms that appear are defined before they are used to explain other ideas (e.g., 'language models', 'embedding', 'vector store', 'retrieval', 'augmentation', 'augmented prompt', 'hallucination').",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "The lesson explains the problem RAG solves, embeddings, the vector store and retrieval step, augmentation, and generation with beginner-level explanations.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly states what RAG is (definition), why it matters (three problems and how RAG helps), and how it works (indexing and querying steps).",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "A concrete, worked example (train ticket rules) traces a real question through chunking, embedding, retrieval, augmentation, and generation, including sample chunks and an augmented prompt.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "reasoning": "Factual claims align with the grounding document: RAG is an inference-time technique, embeddings are numeric vectors produced by a separate model, retrieval and augmentation are described accurately, and the lesson avoids the listed misconceptions.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is simple, sentences are short and direct, and analogies (smart friend, small book, library) are concrete and culturally accessible to the target reader.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "The lesson flows logically from definition to why to how, and each concept is introduced before being used.",
+      "evidence_type": "quoted_span",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 5,
+    "teaching_flow": 5,
+    "example_quality": 5,
+    "concision": 4
+  },
+  "summary": "The lesson meets all seven gates. It is clear, accurate against the grounding document, uses a concrete end-to-end example, and is accessible to the target reader. Minor concision improvements are possible but not required for passing."
+}

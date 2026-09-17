@@ -13,9 +13,12 @@ Three properties make this evaluator worth trusting:
 3. A DIFFERENT VENDOR from the generator. A model grades its own prose more
    softly than a stranger's.
 
-Parse failures here are FATAL. A verdict that does not parse must never be
-treated as a pass -- silently shipping unjudged content is the one failure mode
-this whole system exists to prevent.
+This node fails CLOSED. A verdict that cannot be parsed, that skips or
+duplicates a gate, or that cites text absent from the lesson is discarded whole
+and re-requested once; a second untrustworthy verdict raises rather than
+shipping. Silently approving unjudged content is the one failure mode this
+system exists to prevent, so every degradation path here refuses rather than
+approves.
 """
 
 from __future__ import annotations
