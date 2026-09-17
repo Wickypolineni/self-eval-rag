@@ -121,8 +121,13 @@ gates:
 # ADVISORY SCORES — 1-5. NOT ship-blocking. Diagnostics only.
 #
 # Deliberately excluded from the pass decision: the brief forbids partial
-# credit. These feed the memory layer so repeated weakness in a dimension can
-# sharpen the generator prompt over time.
+# credit.
+#
+# They are diagnostic telemetry, and nothing consumes them automatically today.
+# Their value has been diagnostic in practice: low advisory scores sitting next
+# to passing gates is what exposed the evaluator passing a draft it had itself
+# scored 1/5. Feeding them back into prompt tuning is future work; the
+# self-evolving memory currently runs on binary gate failures alone.
 # ----------------------------------------------------------------------------
 advisory_scores:
   - id: beginner_friendliness

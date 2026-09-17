@@ -1,72 +1,16 @@
 {
   "schema_version": 1,
-  "total_runs": 12,
+  "total_runs": 14,
   "gate_failure_counts": {
-    "G4": 13,
-    "G5": 9,
-    "G1": 7,
-    "G2": 7,
-    "G3": 6,
-    "G6": 6,
-    "G7": 6
+    "G4": 14,
+    "G5": 11,
+    "G1": 8,
+    "G2": 8,
+    "G3": 7,
+    "G6": 7,
+    "G7": 7
   },
   "recent_failures": [
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G5",
-      "evidence": "RAG solves these problems. It gives the LLM access to fresh and correct information. This means the LLM can give you:",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G1",
-      "evidence": "While a special database called a vector store is often used, it is not always needed for RAG.",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 3,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G7",
-      "evidence": "While a special database called a vector store is often used, it is not always needed for RAG.",
-      "timestamp": "2026-09-17T13:31:56+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G1",
-      "evidence": "The architectural paradigm of Retrieval-Augmented Generation (RAG) represents a significant advancement in the capabilities of large language models, addressing fundamental limitations inherent in purely generative approaches.",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G2",
-      "evidence": "The aim is to provide the generative model with explicit, external contextual information that directly addresses the user",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G3",
-      "evidence": "This lesson will meticulously dissect the foundational components and operational modalities of RAG, illuminating its profound implications for sophisticated natural language processing tasks.",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G4",
-      "evidence": "This lesson will meticulously dissect the foundational components and operational modalities of RAG, illuminating its profound implications for sophisticated natural language processing tasks.",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
-    {
-      "run": 4,
-      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
-      "gate_id": "G6",
-      "evidence": "Generative language models, while exhibiting remarkable fluency and coherence, are fundamentally constrained by the parametric knowledge encoded within their weights during pre-training.",
-      "timestamp": "2026-09-17T13:35:29+00:00"
-    },
     {
       "run": 4,
       "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
@@ -290,9 +234,65 @@
       "gate_id": "G5",
       "evidence": "The language model reads this combined message and writes an answer based *only* on the provided context.",
       "timestamp": "2026-09-17T15:15:05+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G1",
+      "evidence": "bilities of external knowledge bases.\n\n## The Problem RAG Solves: Bridging Parametric and Non-Parametric Knowledge\n\nThe fundamental challenge addressed by RAG lies in augmenting the static, parametric",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G2",
+      "evidence": "No explanation of the vector store and the retrieval step; no clear description of augmentation (how retrieved text is put into the prompt); no description of generation (how the model reads the augmented prompt and produces an answer).",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G3",
+      "evidence": "The lesson lacks a step-by-step explanation of the two phases (indexing and querying) and the per-question flow: embed question → retrieve top-k chunks → build augmented prompt → generate answer.",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G4",
+      "evidence": "No concrete worked example tracing a real user question through the full RAG pipeline appears anywhere in the lesson.",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "grounding these generative processes in authoritative, real-world data, thereby enhancing factual accuracy, reducing confabulation, and enabling models to offer responses that are both contextually rich and verifiably correct, even in rapidly evolving knowledge domains or highly specialized fields where comprehensive pre-training is infeasible.",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G6",
+      "evidence": "RAG provides a principled mechanism for grounding these generative processes in authoritative, real-world data, thereby enhancing factual accuracy, reducing confabulation, and enabling models to offer responses that are both contextually rich and verifiably correct, even in rapidly evolving knowledge domains or highly specialized fields where comprehensive pre-training is infeasible.",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G7",
+      "evidence": "Retrieval-Augmented Generation (RAG) emerges as a sophisticated architectural paradigm designed to mitigate these inherent limitations by synergistically combining the generative prowess of large language models with the dynamic, verifiable information retrieval capabilities of external knowledge bases.",
+      "timestamp": "2026-09-17T15:27:31+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "gate_id": "G5",
+      "evidence": "This answer uses only the information from Chunk 1.",
+      "timestamp": "2026-09-17T15:27:31+00:00"
     }
   ],
-  "last_updated": "2026-09-17T15:15:05+00:00",
+  "last_updated": "2026-09-17T15:27:31+00:00",
   "run_history": [
     {
       "run": 1,
@@ -455,6 +455,33 @@
       ],
       "terminal_failed_gates": [],
       "timestamp": "2026-09-17T15:15:05+00:00"
+    },
+    {
+      "run": 13,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 1,
+      "failed_gates": [],
+      "terminal_failed_gates": [],
+      "timestamp": "2026-09-17T15:24:49+00:00"
+    },
+    {
+      "run": 14,
+      "topic": "Introduction to RAG (Retrieval-Augmented Generation)",
+      "passed": true,
+      "attempts": 3,
+      "failed_gates": [
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G5",
+        "G6",
+        "G7",
+        "G5"
+      ],
+      "terminal_failed_gates": [],
+      "timestamp": "2026-09-17T15:27:31+00:00"
     }
   ]
 }

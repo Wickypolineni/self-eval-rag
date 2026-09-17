@@ -152,6 +152,11 @@ Each of these is **false**. If the lesson asserts one, gate G5 fails.
     a natural property of it — but this is about what the architecture makes
     available, not an absolute impossibility. Prefer "RAG can cite the chunks it
     retrieved; fine-tuning alone gives the model nothing to point to."
+- ❌ "RAG gives the model up-to-date information."
+  → RAG is only as current as the documents that have been indexed. If the index
+    is stale, the answers are stale. Say "RAG can supply newer or private
+    information from outside sources; if those sources are kept current, answers
+    can be more up to date" — not "RAG provides up-to-date information".
 - ❌ "RAG guarantees the answer is correct / accurate / up to date."
   → RAG supplies external text. If that text is wrong or stale, the answer can be
     wrong or stale. Use "usually", "helps", "reduces" — never "ensures",

@@ -133,7 +133,10 @@ class Verdict(BaseModel):
         lines: list[str] = []
         for g in self.failed_gates:
             lines.append(f"### {g.gate_id} FAILED - {g.reasoning}")
-            lines.append(f'  Offending text: "{g.evidence}"')
+            if g.evidence_type == "missing_requirement":
+                lines.append(f"  Missing requirement: {g.evidence}")
+            else:
+                lines.append(f'  Offending text: "{g.evidence}"')
             lines.append(f"  Required fix:   {g.fix_instruction}")
             lines.append("")
         return "\n".join(lines).strip()

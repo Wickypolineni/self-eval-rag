@@ -2,24 +2,66 @@
   {
     "attempt": 1,
     "what_failed": [
+      "G1",
+      "G2",
+      "G3",
       "G4",
-      "G5"
+      "G5",
+      "G6",
+      "G7"
     ],
     "why": [
       {
+        "gate_id": "G1",
+        "reasoning": "Contains graduate-level terminology unsuitable for an absolute beginner: non-parametric, parametric knowledge, parametric memory, latent semantic, dense vector representation, high-dimensional. Found by lookup, not judgement.",
+        "evidence_type": "quoted_span",
+        "evidence": "bilities of external knowledge bases.\n\n## The Problem RAG Solves: Bridging Parametric and Non-Parametric Knowledge\n\nThe fundamental challenge addressed by RAG lies in augmenting the static, parametric",
+        "required_fix": "Remove or replace these terms entirely: non-parametric, parametric knowledge, parametric memory, latent semantic, dense vector representation, high-dimensional. Use everyday words. For example say 'a list of numbers that captures meaning' rather than 'dense vector representation'."
+      },
+      {
+        "gate_id": "G2",
+        "reasoning": "The lesson explains the problem RAG solves and embeddings, but it omits clear, beginner-level explanations of the vector store and the retrieval step, the augmentation step (inserting retrieved text into the prompt), and the generation step (the model answering from the augmented prompt).",
+        "evidence_type": "missing_requirement",
+        "evidence": "No explanation of the vector store and the retrieval step; no clear description of augmentation (how retrieved text is put into the prompt); no description of generation (how the model reads the augmented prompt and produces an answer).",
+        "required_fix": "Add explicit beginner-level sections for: (a) the vector store and retrieval step: describe what a vector store holds, how a question is embedded and used to find top-k chunks; (b) augmentation: show exactly how retrieved chunks are placed into the model's prompt and the guarding instruction to 'answer only from context'; (c) generation: explain how the model reads the augmented prompt and generates the final answer. Use short sentences and examples."
+      },
+      {
+        "gate_id": "G3",
+        "reasoning": "The lesson states what RAG is and why it matters, but it does not explain how RAG works as a clear step-by-step process (indexing vs querying; embedding the question; retrieving top-k; building augmented prompt; generating the answer).",
+        "evidence_type": "missing_requirement",
+        "evidence": "The lesson lacks a step-by-step explanation of the two phases (indexing and querying) and the per-question flow: embed question → retrieve top-k chunks → build augmented prompt → generate answer.",
+        "required_fix": "Add an explicit 'How RAG works' section that lists the two phases (indexing and querying) and walks the reader through each step in order. Use short, numbered steps and avoid jargon. Show which steps happen once and which happen on each user question."
+      },
+      {
         "gate_id": "G4",
-        "reasoning": "The lesson uses useful analogies but does not provide a concrete worked example that traces a real user question through the pipeline end-to-end with actual text/chunks and the model's final answer.",
-        "evidence_quoted_from_lesson": "the lesson contains no concrete worked example that traces a real user question through indexing, retrieval, augmentation, and generation using actual text or chunks.",
-        "required_fix": "Add a step-by-step worked example: pick a sample user question, show how a document is chunked, show example chunk texts, show embeddings (described simply), show which top-k chunks are retrieved, show the augmented prompt assembled, and show the model's final answer citing the chunks."
+        "reasoning": "The lesson contains only definitions and high-level claims. There is no concrete worked example that traces a real question through chunking, embedding, retrieval, augmentation, and generation.",
+        "evidence_type": "missing_requirement",
+        "evidence": "No concrete worked example tracing a real user question through the full RAG pipeline appears anywhere in the lesson.",
+        "required_fix": "Include a worked example: pick a simple, realistic user question (for example, 'How do I reset my bank password?'), show one or two example chunks from a document, show their embeddings conceptually, show the retrieval of top-k chunks, demonstrate the augmented prompt, and show the model's final grounded answer. Keep it simple and concrete."
       },
       {
         "gate_id": "G5",
-        "reasoning": "The lesson contains a statement that implies RAG guarantees correct information, which contradicts the grounding document's caution that RAG reduces but does not eliminate hallucination and retrieved text may be wrong.",
-        "evidence_quoted_from_lesson": "RAG helps with all these problems. It gives the computer program the correct and new information it needs, right when it asks a question.",
-        "required_fix": "Replace the sentence with a careful statement such as: 'RAG helps by supplying relevant and up-to-date information from external text at query time. This usually reduces mistakes, but the retrieved sources can be wrong, and the model can still make errors.'"
+        "reasoning": "The lesson makes a factual claim that overstates what RAG guarantees by implying retrieved answers are 'verifiably correct', which contradicts the grounding document's caution that RAG reduces but does not eliminate hallucination and does not guarantee correctness.",
+        "evidence_type": "quoted_span",
+        "evidence": "grounding these generative processes in authoritative, real-world data, thereby enhancing factual accuracy, reducing confabulation, and enabling models to offer responses that are both contextually rich and verifiably correct, even in rapidly evolving knowledge domains or highly specialized fields where comprehensive pre-training is infeasible.",
+        "required_fix": "Change wording to avoid implying guarantees. Replace 'verifiably correct' with language like: 'easier to check or verify' or 'more likely to be grounded in source text, though not guaranteed correct'. Add a short sentence reminding the reader that retrieved sources can be wrong or stale."
+      },
+      {
+        "gate_id": "G6",
+        "reasoning": "Sentences are too long for this reader: longest is 49 words (limit 35), mean is 30.1 (limit 25). Measured, not judged.",
+        "evidence_type": "quoted_span",
+        "evidence": "RAG provides a principled mechanism for grounding these generative processes in authoritative, real-world data, thereby enhancing factual accuracy, reducing confabulation, and enabling models to offer responses that are both contextually rich and verifiably correct, even in rapidly evolving knowledge domains or highly specialized fields where comprehensive pre-training is infeasible.",
+        "required_fix": "Break long sentences up. No sentence over 35 words, and keep the average under 25. One idea per sentence."
+      },
+      {
+        "gate_id": "G7",
+        "reasoning": "The lesson refers to retrieval and other pipeline pieces before explaining them, and it stops abruptly without completing the pipeline—this breaks the teaching flow and forces the reader to hold unexplained ideas.",
+        "evidence_type": "quoted_span",
+        "evidence": "Retrieval-Augmented Generation (RAG) emerges as a sophisticated architectural paradigm designed to mitigate these inherent limitations by synergistically combining the generative prowess of large language models with the dynamic, verifiable information retrieval capabilities of external knowledge bases.",
+        "required_fix": "Reorder the lesson into a clear sequence: start with simple definitions, then state what RAG does, then give a step-by-step pipeline (indexing, querying), then detail embeddings, vector stores, augmentation, and generation, and finally give a concrete example. Ensure no term is used before it is defined."
       }
     ],
-    "changed_on_next_retry": "G4: Added a new section \"RAG in Action: A Worked Example\" that traces a user question through indexing, chunking, embedding, retrieval, augmentation, and generation with specific text examples. G5: Replaced \"It gives the computer program the correct and new information it needs, right when it asks a question.\" with \"RAG helps by supplying relevant and up-to-date information from external text at query time. This usually reduces mistakes, but the retrieved sources can be wrong, and the model can still make errors.\""
+    "changed_on_next_retry": "G1: Replaced all graduate-level terms like \"non-parametric\", \"parametric knowledge\", \"latent semantic\", \"dense vector representation\", and \"high-dimensional\" with plain language explanations such as \"meaning number list\" or \"a list of numbers that captures meaning\". G2: Added explicit sections for \"Vector Store and Retrieval\", \"Augmentation\", and \"Generation\" with beginner-level explanations. G3: Added a dedicated \"How RAG Works: Two Main Parts\" section, clearly separating \"Setting Up (Indexing Phase)\" and \"Answering Questions (Querying Phase)\" and detailing the steps within each. G4: Included a concrete worked example tracing the question \"How do I get my money back if I am not happy with the product?\" through chunking, embedding, retrieval, augmentation, and generation. G5: Changed \"verifiably correct\" to \"more likely to be based on facts\" and added a caution: \"But remember, if the text RAG finds is wrong, the answer can still be wrong.\" G6: Broke down long sentences into shorter ones, ensuring no sentence exceeds 35 words and keeping the average lower. G7: Reordered the lesson to define terms and concepts (like language models and their problems) before using them in the explanation of RAG, ensuring a logical flow from \"What RAG Is\" to \"Why RAG Matters\" and then \"How RAG Works\"."
   },
   {
     "attempt": 2,
@@ -29,11 +71,12 @@
     "why": [
       {
         "gate_id": "G5",
-        "reasoning": "The lesson asserts that the model will produce answers based only on the provided retrieved context. This contradicts the grounding document, which warns that the instruction is a guardrail and the model may still use its own knowledge or hallucinate.",
-        "evidence_quoted_from_lesson": "The language model reads this combined message and writes an answer based *only* on the provided context.",
-        "required_fix": "Change this sentence to clearly state that the model is instructed to use the provided context but may still use its own trained knowledge or make errors. For example: 'The language model is instructed to use the provided context when answering, but this is a guardrail—not a guarantee. The model can still use its own knowledge or misread the context, so RAG reduces but does not eliminate incorrect answers.'"
+        "reasoning": "The lesson makes an absolute claim that contradicts the grounding document's caution that the model may ignore instructions and can still use its trained knowledge; the lesson states the model 'uses only' retrieved text as a fact.",
+        "evidence_type": "quoted_span",
+        "evidence": "This answer uses only the information from Chunk 1.",
+        "required_fix": "Change this absolute sentence to a guarded statement. For example: 'The model is instructed to use only the information from Chunk 1, but the model can still use its own training or make mistakes. The instruction is a guardrail, not a guarantee.' Add a brief note earlier that the model can ignore the instruction and still hallucinate."
       }
     ],
-    "changed_on_next_retry": "G5: Changed \"The language model reads this combined message and writes an answer based *only* on the provided context.\" to \"The language model reads this combined message and is told to use the provided information to write a good answer. This instruction is a guardrail, not a guarantee. The model can still use its own knowledge or misread the context. So, RAG reduces but does not eliminate incorrect answers. Because it has the facts, it is less likely to make things up.\" Also changed \"writes an answer based *only* on the provided context.\" to \"is told to answer based on the provided context.\" in the example section."
+    "changed_on_next_retry": "G5: Changed \"This answer uses only the information from Chunk 1.\" to \"This answer is based on the information from Chunk 1. The model is told to use only this information, but it can sometimes use its own knowledge or make mistakes.\" Also added a warning earlier: \"But it can still make mistakes or ignore the text.\""
   }
 ]

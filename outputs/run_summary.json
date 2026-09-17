@@ -9,8 +9,13 @@
   },
   "gates_failed_by_attempt": {
     "1": [
+      "G1",
+      "G2",
+      "G3",
       "G4",
-      "G5"
+      "G5",
+      "G6",
+      "G7"
     ],
     "2": [
       "G5"
@@ -18,5 +23,5 @@
     "3": []
   },
   "human_review_reason": null,
-  "finished_at": "2026-09-17T15:15:05+00:00"
+  "finished_at": "2026-09-17T15:27:31+00:00"
 }

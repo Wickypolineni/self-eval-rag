@@ -37,7 +37,10 @@ def _rejection_log(state: LessonState) -> list[dict]:
                 {
                     "gate_id": g.gate_id,
                     "reasoning": g.reasoning,
-                    "evidence_quoted_from_lesson": g.evidence,
+                    "evidence_type": g.evidence_type,
+                    # Named generically: a missing_requirement describes what is
+                    # ABSENT, so it is not and cannot be a quotation.
+                    "evidence": g.evidence,
                     "required_fix": g.fix_instruction,
                 }
                 for g in att.verdict.failed_gates

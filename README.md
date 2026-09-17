@@ -68,8 +68,11 @@ no threshold to average past. **A lesson ships only if all seven gates pass.**
 | **G7** | Concepts build in order, no unresolved forward references | *coherent teaching flow* |
 
 Four advisory scores (1–5) are also recorded — beginner-friendliness, teaching
-flow, example quality, concision. **They never affect the pass decision.** They
-exist so the memory layer has a gradient to learn from. A beautifully written
+flow, example quality, concision. **They never affect the pass decision**, and nothing
+consumes them automatically — they are diagnostic telemetry. Their value has
+been diagnostic in practice: low advisory scores sitting beside passing gates is
+exactly what exposed the evaluator approving a draft it had itself scored 1/5.
+The cross-run memory runs on binary gate failures alone. A beautifully written
 lesson that skips embeddings is still rejected.
 
 The rubric lives in [`configs/rubric.yaml`](configs/rubric.yaml) as data. Tuning
@@ -160,7 +163,7 @@ without a second account.
 ```bash
 .venv/bin/python -m lesson_agent.main                      # normal run
 .venv/bin/python scripts/run_deliberate_failure_demo.py    # sabotaged first draft
-.venv/bin/python -m pytest tests/ -q                       # 54 tests, offline, no API cost
+.venv/bin/python -m pytest tests/ -q                       # 68 tests, offline, no API cost
 ```
 
 **Cost: ~$0.003 per full run.** A complete three-generation run is a third of a
@@ -183,41 +186,36 @@ Both directories under `outputs/` are committed output from actual runs.
 ### A passing run — [`outputs/sample_run/`](outputs/sample_run/)
 
 ```
-attempt 1  →  REJECT — G4 (no worked example), G5 (accuracy overclaim)
-attempt 2  →  REJECT — G5 (accuracy overclaim, again)
+attempt 1  →  REJECT — all 7 gates
+attempt 2  →  REJECT — G5 (accuracy overclaim)
 attempt 3  →  PASS   — 7/7 gates
 ```
 
-Both failure shapes appear here, which is the point.
+Both failure shapes appear, which is the point.
 
-**G4 failed on absence.** The judge reported it as a `missing_requirement`:
+**Coverage gates failed on absence**, reported as `missing_requirement`:
 
-> "the lesson contains no concrete worked example that traces a real user
-> question through indexing and retrieval"
+> G2: "No explanation of the vector store and the retrieval step; no clear
+> description of augmentation..."
+>
+> G4: "No concrete worked example tracing a real user question through the full
+> RAG pipeline appears anywhere in the lesson."
 
 There is no text to quote, because the problem is that the text does not exist.
-An earlier version of this schema demanded a verbatim quote for every failure,
-which made absence literally unreportable — and the evaluator prompt resolved
-that contradiction by passing the gate. A lesson with no worked example would
-have shipped.
+An earlier schema demanded a verbatim quote for *every* failure, which made
+absence literally unreportable — and the evaluator prompt resolved that
+contradiction by passing the gate. A lesson with no worked example would have
+shipped.
 
-**G5 failed on a quoted overclaim**, twice, and the second one is worth reading:
+**Content gates failed on a quoted span.** Attempt 2's is worth reading:
 
-> "The language model reads this combined message and writes an answer based
-> *only* on the provided..."
+> "This answer uses only the information from Chunk 1."
 
 That contradicts the grounding document: the prompt *instructs* the model to use
 the retrieved text, but the instruction is a guardrail, not a guarantee. It reads
-fluently and confidently, and it is wrong only against a source of truth. An
-earlier build shipped exactly this sentence — the judge missed it — which is what
-prompted adding the overclaim family to the grounding document's misconception
-list.
-
-The shipped lesson now says:
-
-> "This instruction is a guardrail, not a guarantee. The model can still use its
-> own knowledge or misread the context. So, RAG reduces but does not eliminate
-> incorrect answers."
+fluently and confidently, and is wrong only against a source of truth. An earlier
+build shipped this exact claim — the judge missed it — which is why the overclaim
+family was added to the grounding document's misconception list.
 
 ### A run that refused to ship — [`outputs/escalation_run/`](outputs/escalation_run/)
 
@@ -318,7 +316,7 @@ src/lesson_agent/
   models/evaluation.py           schema that rejects an uncited failure
   memory/store.py                cross-run failure patterns
   grounding/rag_reference.md     source of truth for factual accuracy
-tests/                           54 tests, no API key required
+tests/                           68 tests, no API key required
 scripts/run_deliberate_failure_demo.py
 ```
 

@@ -111,9 +111,18 @@ def evaluate(state: LessonState) -> LessonState:
                 f"{str(result.get('parsing_error') or 'no parsed object')[:300]}"
             )
 
-        # Every gate must be judged. A partial pass is not a verdict.
-        if missing := set(gate_ids()) - {g.gate_id for g in parsed.gates}:
+        # Every gate must be judged exactly once. A partial pass is not a
+        # verdict, and a duplicated gate is ambiguous -- if the same gate is
+        # returned twice with different outcomes there is no honest way to
+        # decide which one counts, so the verdict is re-requested.
+        expected = set(gate_ids())
+        returned = [g.gate_id for g in parsed.gates]
+        if missing := expected - set(returned):
             raise _UnverifiableVerdict(f"evaluator skipped gate(s): {sorted(missing)}")
+        if duplicates := {g for g in returned if returned.count(g) > 1}:
+            raise _UnverifiableVerdict(f"evaluator returned duplicate gate(s): {sorted(duplicates)}")
+        if unexpected := set(returned) - expected:
+            raise _UnverifiableVerdict(f"evaluator invented gate(s): {sorted(unexpected)}")
 
         # Only quoted_span failures claim something about the lesson's literal
         # text. A missing_requirement describes what is ABSENT -- there is

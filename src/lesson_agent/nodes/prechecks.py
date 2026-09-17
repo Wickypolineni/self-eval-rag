@@ -76,22 +76,44 @@ def _sentences(text: str) -> list[str]:
     text = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
     text = re.sub(r"`[^`]*`", " ", text)
 
-    sentences: list[str] = []
+    # Group lines into BLOCKS before splitting.
+    #
+    # Two opposite mistakes are possible here and both were made:
+    #   - Joining every line merges adjacent list items into invented run-on
+    #     sentences (a false G6 failure on a perfectly readable lesson).
+    #   - Joining nothing misses a genuinely long sentence that the author hard
+    #     wrapped across three lines (a false pass).
+    #
+    # Markdown's own rule resolves it: a hard-wrapped paragraph is ONE
+    # paragraph, while each list item is its own block. So lines join within a
+    # block and never across one.
+    blocks: list[list[str]] = []
+    current: list[str] = []
+
+    def _flush() -> None:
+        if current:
+            blocks.append(current.copy())
+            current.clear()
+
     for raw in text.splitlines():
         line = raw.strip()
         if not line:
+            _flush()
             continue
-        if line.startswith(("#", "|", ">")):
-            continue          # heading, table row, blockquote
-        if set(line) <= set("-=| "):
-            continue          # table rule / horizontal rule
-        # Strip the list marker, keep the sentence: "- ", "* ", "12. ", "a) "
-        line = re.sub(r"^(?:[-*+]|\d{1,2}[.)]|[a-z][.)])\s+", "", line)
+        if line.startswith(("#", "|", ">")) or set(line) <= set("-=| "):
+            _flush()              # heading, table, rule: not prose
+            continue
+        marker = re.match(r"^(?:[-*+]|\d{1,2}[.)]|[a-z][.)])\s+", line)
+        if marker:
+            _flush()              # a new list item starts a new block
+            line = line[marker.end():]
+        current.append(line)
+    _flush()
 
-        # Split WITHIN a line only. Lines are never joined: a list item that
-        # ends without a full stop is its own unit, and concatenating it with
-        # the next item invents run-on sentences that were never written.
-        for part in re.split(r"(?<=[.!?])\s+", line):
+    sentences: list[str] = []
+    for block in blocks:
+        prose = " ".join(block)
+        for part in re.split(r"(?<=[.!?])\s+", prose):
             part = part.strip()
             if len(part.split()) > 2:
                 sentences.append(part)

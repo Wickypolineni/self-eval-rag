@@ -144,7 +144,12 @@ evaluator:
     {lesson}
     ==============================================================
 
-    Return one result for EVERY gate. For each failed gate include the verbatim
-    offending quote in `evidence` and a specific instruction in
-    `fix_instruction`. Also give a 1-5 advisory score for each advisory
-    dimension -- these are diagnostics and do not affect pass or fail.
+    Return one result for EVERY gate.
+
+    For each FAILED gate set `evidence_type`, then:
+      - `quoted_span`        -> put the verbatim offending text in `evidence`
+      - `missing_requirement`-> state precisely what is absent in `evidence`
+    Always give a specific, actionable `fix_instruction`.
+
+    Also give a 1-5 advisory score for each advisory dimension. These are
+    diagnostics only and do not affect pass or fail.

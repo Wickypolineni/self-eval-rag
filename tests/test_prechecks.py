@@ -147,3 +147,23 @@ def test_a_single_overlong_sentence_fails_even_if_the_mean_is_fine():
     """One 46-word monster among short sentences must still fail."""
     text = "RAG is simple. It finds text. It writes answers. " + " ".join(["word"] * 46) + "."
     assert "G6" in _gate_ids(text)
+
+
+def test_a_hard_wrapped_long_sentence_is_still_measured():
+    """Regression: a 43-word sentence wrapped across three lines slipped past.
+
+    Markdown treats a hard-wrapped paragraph as one paragraph, so lines join
+    within a block. They must not join ACROSS blocks, or adjacent list items
+    merge into invented run-ons.
+    """
+    wrapped = (
+        "RAG is a technique that takes your question and then searches through a large\n"
+        "collection of documents in order to find the passages that are most relevant to\n"
+        "what you asked before handing them over to the model for a final answer."
+    )
+    assert "G6" in _gate_ids(wrapped)
+
+
+def test_a_wrapped_short_paragraph_is_not_a_false_positive():
+    text = "RAG finds useful text.\nThen it writes an answer.\nThat is the whole idea."
+    assert "G6" not in _gate_ids(text)
