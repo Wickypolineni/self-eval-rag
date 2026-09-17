@@ -24,6 +24,7 @@ venv/
 outputs/*
 !outputs/.gitkeep
 !outputs/sample_run/
+!outputs/escalation_run/
 !outputs/final_lesson.md
 !outputs/rejection_log.json
 !outputs/run_summary.json

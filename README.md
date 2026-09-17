@@ -110,14 +110,14 @@ Requires Python 3.11+ and an [OpenRouter](https://openrouter.ai) key.
 
 ```bash
 git clone <this-repo> && cd rag-lesson-evaluator
-uv venv --python 3.12 && uv pip install -e .
+uv venv --python 3.12 && uv pip install -e ".[dev]"
 cp .env.example .env     # then paste your OpenRouter key into .env
 ```
 
 Without `uv`:
 
 ```bash
-python -m venv .venv && source .venv/bin/activate && pip install -e .
+python -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 ```
 
 `.env`:

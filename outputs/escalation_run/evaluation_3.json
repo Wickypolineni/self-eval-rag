@@ -1,0 +1,60 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": false,
+      "reasoning": "The lesson uses the term 'vector store' before it defines what it is. This violates the rule that technical terms must be defined at first use.",
+      "evidence": "While a special database called a vector store is often used, it is not always needed for RAG.",
+      "fix_instruction": "Define 'vector store' in simple language at its very first mention. For example, replace the sentence with: 'While RAG often uses a special database called a vector store (a place that stores numerical fingerprints of text to find similar meaning quickly), it is not always required.' Or move the detailed explanation of the vector store so it appears before this sentence."
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "All five core concepts (problem RAG solves, embeddings, vector store and retrieval, augmentation, generation) are present and explained with the XPhone example.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly states WHAT RAG is, WHY it matters, and HOW it works, and labels these sections.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "Contains a concrete, end-to-end worked example (the XPhone battery question) that follows a real query through indexing, retrieval, augmentation, and generation.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "reasoning": "Factual claims align with the grounding document: RAG is described as inference-time, it reduces but does not eliminate hallucination, embeddings are numeric vectors produced by a separate model, vector stores are common but not required, and the same embedding model is used for questions and chunks.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is mostly simple, sentences are generally short, and examples are relatable. No idioms or culturally specific references that would confuse the target reader.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": false,
+      "reasoning": "The lesson makes a forward reference to 'vector store' before explaining it, creating a brief coherence break where the reader encounters an unexplained technical term earlier in the text.",
+      "evidence": "While a special database called a vector store is often used, it is not always needed for RAG.",
+      "fix_instruction": "Move a one-sentence definition of 'vector store' so it appears before this paragraph, or reword this sentence to include a brief definition inline (e.g., 'While RAG often uses a special database called a vector store — a place that stores the numerical fingerprints of text for fast similarity search — it is not always needed.'). Ensure no technical term appears before its plain-language definition."
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 3,
+    "teaching_flow": 3,
+    "example_quality": 5,
+    "concision": 4
+  },
+  "summary": "The lesson is clear, accurate, and provides a strong end-to-end example. Two small problems remain: the term 'vector store' is introduced before it is defined, which breaks the 'define at first use' rule and slightly harms flow. Fixing that single placement/wording will make the lesson suitable for the target reader."
+}

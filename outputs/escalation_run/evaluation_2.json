@@ -1,0 +1,60 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": true,
+      "reasoning": "All technical terms that appear are defined before use: LLM, hallucination, RAG, retrieval, generation, chunk, embedding, vector store, prompt, and augmentation are introduced and explained in plain language.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G2",
+      "passed": true,
+      "reasoning": "The lesson covers all five core concepts: the problems RAG solves (old information, hallucination, specific/private data), embeddings (turning text into numbers), vector store and retrieval, augmentation (inserting retrieved text into the prompt), and generation (model answering from augmented prompt).",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G3",
+      "passed": true,
+      "reasoning": "The lesson explicitly states WHAT RAG is, WHY it matters, and shows HOW it works with a named section for each.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G4",
+      "passed": true,
+      "reasoning": "Contains a concrete, worked example (the XPhone question) that traces indexing, embedding, storage, retrieval, augmentation, and generation end to end.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G5",
+      "passed": false,
+      "reasoning": "The lesson asserts that RAG 'solves' the listed problems in a way that implies elimination of hallucination, which contradicts the grounding document stating RAG reduces but does not eliminate hallucination.",
+      "evidence": "RAG solves these problems. It gives the LLM access to fresh and correct information. This means the LLM can give you:",
+      "fix_instruction": "Change the wording so it does not claim RAG 'solves' or 'eliminates' hallucination. Replace the sentence with something like: 'RAG helps address these problems by giving the LLM access to fresh information. It reduces hallucination and makes answers more up-to-date, but it does not eliminate errors—the model can still misread or contradict the retrieved text.' Also add a short note that RAG is an inference-time technique that does not change model weights, and that a vector database is common but not required."
+    },
+    {
+      "gate_id": "G6",
+      "passed": true,
+      "reasoning": "Language is clear, sentences are short and direct, no idioms or culturally specific references; the XPhone/library analogy is accessible to the target reader.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G7",
+      "passed": true,
+      "reasoning": "The lesson follows a logical order (intro → what → why → how → example). Concepts are introduced before they are used and no unresolved forward references occur.",
+      "evidence": null,
+      "fix_instruction": null
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 4,
+    "teaching_flow": 5,
+    "example_quality": 5,
+    "concision": 4
+  },
+  "summary": "This is a strong beginner lesson: clear, well-structured, and with a good concrete example. The only factual problem is an overstatement that RAG 'solves' the listed problems (implying elimination of hallucination). Revise that claim to say RAG reduces hallucination and does not change model weights; then the lesson will align with the grounding document."
+}

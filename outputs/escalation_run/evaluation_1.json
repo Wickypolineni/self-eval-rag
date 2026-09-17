@@ -1,0 +1,60 @@
+{
+  "gates": [
+    {
+      "gate_id": "G1",
+      "passed": false,
+      "reasoning": "The lesson uses many technical terms (e.g., 'LLMs', 'parametric', 'non-parametric', 'embeddings', 'vector store', 'chunk', 'cosine similarity') before defining them in plain language at first use. This will confuse a reader with limited English and no ML background.",
+      "evidence": "The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis.",
+      "fix_instruction": "At the first place each technical term appears, add a short plain-language definition before using it. For example, before using 'LLM', write: 'Large language model (LLM): a computer program that reads and writes text like a human.' Do the same for 'parametric', 'non-parametric', 'embedding', 'vector', 'vector store', 'chunk', 'cosine similarity', 'hallucination', and any other technical word. Avoid defining one jargon word using other undefined jargon."
+    },
+    {
+      "gate_id": "G2",
+      "passed": false,
+      "reasoning": "The lesson explains embeddings and vector retrieval but does not complete the augmentation step and omits the generation step. One of the five core concepts (augmentation and generation) is missing or not explained enough for a beginner.",
+      "evidence": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
+      "fix_instruction": "Finish the Augmentation section with a clear, simple explanation of how retrieved text is placed into the model's prompt and the purpose of an instruction like 'use only the context below'. Then add a separate Generation section that explains how the model produces an answer from the augmented prompt and how citations or refusal guards work."
+    },
+    {
+      "gate_id": "G3",
+      "passed": false,
+      "reasoning": "The lesson does not fully cover HOW RAG works end-to-end (querying and generation are incomplete). While WHAT and WHY are present, the 'how' phase is truncated and therefore a beginner cannot trace a real question through the whole system.",
+      "evidence": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
+      "fix_instruction": "Add an explicit 'What / Why / How' structure or clearly labeled sections. Under 'How', describe both indexing and querying steps and show how they connect: chunk → embed → store, then question → embed → retrieve → augment prompt → generate answer (with citation or refusal)."
+    },
+    {
+      "gate_id": "G4",
+      "passed": false,
+      "reasoning": "There is no concrete worked example or sustained analogy that traces one real user question through the entire pipeline. The lesson remains abstract and definitional, which will be hard for beginners to apply.",
+      "evidence": "This lesson will systematically deconstruct the core tenets of RAG, illuminating its architectural components and operational dynamics.",
+      "fix_instruction": "Add a step-by-step worked example. Pick a simple, real question (for example: 'How do I reset my email password?'), then show how a document is chunked and embedded, how the query is embedded and retrieves top-k chunks, how those chunks are placed into the prompt, and finally show the model's final answer and how the system cites sources or says 'I don't know' if not found."
+    },
+    {
+      "gate_id": "G5",
+      "passed": true,
+      "reasoning": "The factual claims in the lesson align with the grounding document. It correctly states that RAG supplies external text at query time, that embeddings are vectors, that ANN search is common, and it does not assert any of the listed misconceptions.",
+      "evidence": null,
+      "fix_instruction": null
+    },
+    {
+      "gate_id": "G6",
+      "passed": false,
+      "reasoning": "The lesson uses long, complex sentences and high-level vocabulary that will be difficult for a reader with limited English. It also uses specialized terms without plain definitions and no simple, local analogies.",
+      "evidence": "The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis.",
+      "fix_instruction": "Rewrite in short, direct sentences and use simple words. Replace complex phrases like 'parametric knowledge' with easy phrases like 'what the model learned during training'. Add everyday analogies (e.g., compare RAG to a librarian fetching books for a question). Define each technical term in one short sentence when first used."
+    },
+    {
+      "gate_id": "G7",
+      "passed": false,
+      "reasoning": "The lesson mostly follows a logical order but the pipeline is left incomplete (augmentation cuts off and generation is missing). This breaks the teaching flow and leaves the reader with unresolved forward references.",
+      "evidence": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
+      "fix_instruction": "Complete the remaining sections so the reader can follow the entire pipeline. Ensure each concept appears before it is used (e.g., define 'chunk' before discussing chunk retrieval) and that the indexing vs querying phases are clearly separated and explained in order."
+    }
+  ],
+  "advisory_scores": {
+    "beginner_friendliness": 2,
+    "teaching_flow": 3,
+    "example_quality": 1,
+    "concision": 3
+  },
+  "summary": "The lesson is factually accurate but written at too-high a language level and leaves key parts of the pipeline incomplete. To be usable for a beginner with limited English, it needs plain definitions of jargon at first use, a complete 'how' walkthrough (including augmentation and generation), and a concrete worked example."
+}

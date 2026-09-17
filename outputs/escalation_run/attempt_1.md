@@ -1,0 +1,19 @@
+# Introduction to Retrieval-Augmented Generation (RAG)
+
+The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis. Retrieval-Augmented Generation (RAG) emerges as a potent paradigm to address these inherent challenges, offering a principled methodology for grounding generative models in externally sourced, authoritative information. This lesson will systematically deconstruct the core tenets of RAG, illuminating its architectural components and operational dynamics.
+
+## 1. The Problem RAG Solves
+
+While contemporary LLMs exhibit extraordinary capabilities in language understanding and generation, their responses are fundamentally constrained by the data upon which they were pre-trained. This engenders several critical limitations: a susceptibility to generating outdated or inaccurate information, an inability to access private or domain-specific knowledge bases, and a propensity for "hallucination" – fabricating plausible but factually incorrect assertions. These shortcomings render standalone LLMs suboptimal for applications demanding high veridicality, traceability, or the integration of real-time, dynamic information. RAG directly confronts these issues by decoupling the knowledge acquisition phase from the knowledge generation phase, thereby enabling LLMs to leverage non-parametric memory for enhanced factual grounding and responsiveness to evolving information landscapes.
+
+## 2. Embeddings: Transforming Text into Meaningful Numerical Representations
+
+The cornerstone of effective information retrieval within a RAG framework is the transformation of discrete textual units into continuous, high-dimensional numerical vectors, commonly referred to as embeddings. These dense vector representations are meticulously crafted such that semantic proximity in the original textual space is faithfully preserved as geometric proximity in the embedding space. Advanced neural network architectures, often derived from transformer models, are trained on vast corpora to produce these embeddings, effectively mapping linguistic nuances, contextual dependencies, and conceptual relationships into a latent semantic space. The dimensionality of these embeddings is a critical hyperparameter, influencing both the granularity of semantic capture and the computational overhead of subsequent operations.
+
+## 3. The Vector Store and Approximate Nearest Neighbour Search
+
+Once textual data, whether from a document corpus or a user query, has been transmuted into its corresponding embedding, these numerical representations are then indexed and stored within a specialized data structure known as a vector store. This repository is optimized for efficient similarity search, moving beyond traditional keyword-based methodologies. When a user query is received, its embedding is computed and subsequently used to perform an approximate nearest neighbour (ANN) search within the vector store. This process rapidly identifies the *k* most semantically similar document chunks or passages, typically quantified by metrics such as cosine similarity, without requiring an exhaustive comparison against every single vector in the database. The efficacy of this retrieval step is paramount, as it directly dictates the relevance and quality of the information subsequently presented to the generative model.
+
+## 4. Augmentation: Contextualizing the Generative Prompt
+
+Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model

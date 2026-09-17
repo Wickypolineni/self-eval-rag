@@ -1,0 +1,89 @@
+[
+  {
+    "attempt": 1,
+    "what_failed": [
+      "G1",
+      "G2",
+      "G3",
+      "G4",
+      "G6",
+      "G7"
+    ],
+    "why": [
+      {
+        "gate_id": "G1",
+        "reasoning": "The lesson uses many technical terms (e.g., 'LLMs', 'parametric', 'non-parametric', 'embeddings', 'vector store', 'chunk', 'cosine similarity') before defining them in plain language at first use. This will confuse a reader with limited English and no ML background.",
+        "evidence_quoted_from_lesson": "The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis.",
+        "required_fix": "At the first place each technical term appears, add a short plain-language definition before using it. For example, before using 'LLM', write: 'Large language model (LLM): a computer program that reads and writes text like a human.' Do the same for 'parametric', 'non-parametric', 'embedding', 'vector', 'vector store', 'chunk', 'cosine similarity', 'hallucination', and any other technical word. Avoid defining one jargon word using other undefined jargon."
+      },
+      {
+        "gate_id": "G2",
+        "reasoning": "The lesson explains embeddings and vector retrieval but does not complete the augmentation step and omits the generation step. One of the five core concepts (augmentation and generation) is missing or not explained enough for a beginner.",
+        "evidence_quoted_from_lesson": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
+        "required_fix": "Finish the Augmentation section with a clear, simple explanation of how retrieved text is placed into the model's prompt and the purpose of an instruction like 'use only the context below'. Then add a separate Generation section that explains how the model produces an answer from the augmented prompt and how citations or refusal guards work."
+      },
+      {
+        "gate_id": "G3",
+        "reasoning": "The lesson does not fully cover HOW RAG works end-to-end (querying and generation are incomplete). While WHAT and WHY are present, the 'how' phase is truncated and therefore a beginner cannot trace a real question through the whole system.",
+        "evidence_quoted_from_lesson": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
+        "required_fix": "Add an explicit 'What / Why / How' structure or clearly labeled sections. Under 'How', describe both indexing and querying steps and show how they connect: chunk → embed → store, then question → embed → retrieve → augment prompt → generate answer (with citation or refusal)."
+      },
+      {
+        "gate_id": "G4",
+        "reasoning": "There is no concrete worked example or sustained analogy that traces one real user question through the entire pipeline. The lesson remains abstract and definitional, which will be hard for beginners to apply.",
+        "evidence_quoted_from_lesson": "This lesson will systematically deconstruct the core tenets of RAG, illuminating its architectural components and operational dynamics.",
+        "required_fix": "Add a step-by-step worked example. Pick a simple, real question (for example: 'How do I reset my email password?'), then show how a document is chunked and embedded, how the query is embedded and retrieves top-k chunks, how those chunks are placed into the prompt, and finally show the model's final answer and how the system cites sources or says 'I don't know' if not found."
+      },
+      {
+        "gate_id": "G6",
+        "reasoning": "The lesson uses long, complex sentences and high-level vocabulary that will be difficult for a reader with limited English. It also uses specialized terms without plain definitions and no simple, local analogies.",
+        "evidence_quoted_from_lesson": "The advent of sophisticated large language models (LLMs) has undeniably revolutionized numerous domains within artificial intelligence, yet their intrinsic limitations, particularly concerning the currency and specificity of their parametric knowledge, often necessitate a more robust framework for information synthesis.",
+        "required_fix": "Rewrite in short, direct sentences and use simple words. Replace complex phrases like 'parametric knowledge' with easy phrases like 'what the model learned during training'. Add everyday analogies (e.g., compare RAG to a librarian fetching books for a question). Define each technical term in one short sentence when first used."
+      },
+      {
+        "gate_id": "G7",
+        "reasoning": "The lesson mostly follows a logical order but the pipeline is left incomplete (augmentation cuts off and generation is missing). This breaks the teaching flow and leaves the reader with unresolved forward references.",
+        "evidence_quoted_from_lesson": "Following the retrieval of pertinent textual segments from the vector store, the next critical phase involves the judicious augmentation of the generative model",
+        "required_fix": "Complete the remaining sections so the reader can follow the entire pipeline. Ensure each concept appears before it is used (e.g., define 'chunk' before discussing chunk retrieval) and that the indexing vs querying phases are clearly separated and explained in order."
+      }
+    ],
+    "changed_on_next_retry": "G1: Defined all technical terms (LLMs, hallucination, RAG, chunk, embedding, vector store, augmentation, prompt) in plain language at their first appearance. For example, \"Large language model (LLM): a computer program that reads and writes text like a human.\"\nG2: Completed the \"Augmentation\" section by explaining how retrieved text is placed into the prompt and the purpose of instructions. Added a new \"Generation\" section explaining how the LLM produces an answer and handles citations or refusal.\nG3: Restructured the lesson with clear \"WHAT,\" \"WHY,\" and \"HOW\" sections. The \"HOW\" section now completely covers both indexing and querying phases, showing the full end-to-end pipeline from chunking to answer generation.\nG4: Added a detailed, step-by-step worked example using the question \"What is the battery life of the new XPhone?\" It traces this question through chunking, embedding, vector storage, retrieval, prompt augmentation, and final answer generation.\nG6: Rewrote the entire lesson using short sentences and common words. Replaced complex phrases like \"parametric knowledge\" with simpler ones like \"what the model learned during training.\" Introduced an analogy of a \"smart friend with a library\" to explain RAG.\nG7: Ensured a complete pipeline explanation from beginning to end. All concepts are defined before use, and the indexing and querying phases are clearly separated and explained in order, resolving incomplete explanations and forward references."
+  },
+  {
+    "attempt": 2,
+    "what_failed": [
+      "G5"
+    ],
+    "why": [
+      {
+        "gate_id": "G5",
+        "reasoning": "The lesson asserts that RAG 'solves' the listed problems in a way that implies elimination of hallucination, which contradicts the grounding document stating RAG reduces but does not eliminate hallucination.",
+        "evidence_quoted_from_lesson": "RAG solves these problems. It gives the LLM access to fresh and correct information. This means the LLM can give you:",
+        "required_fix": "Change the wording so it does not claim RAG 'solves' or 'eliminates' hallucination. Replace the sentence with something like: 'RAG helps address these problems by giving the LLM access to fresh information. It reduces hallucination and makes answers more up-to-date, but it does not eliminate errors—the model can still misread or contradict the retrieved text.' Also add a short note that RAG is an inference-time technique that does not change model weights, and that a vector database is common but not required."
+      }
+    ],
+    "changed_on_next_retry": "G5: Changed 'RAG solves these problems' to 'RAG helps address these problems by giving the LLM access to fresh information. It reduces hallucination and makes answers more up-to-date, but it does not eliminate errors—the model can still misread or contradict the retrieved text.' Added clarification that RAG is an inference-time technique and that a vector store is common but not required."
+  },
+  {
+    "attempt": 3,
+    "what_failed": [
+      "G1",
+      "G7"
+    ],
+    "why": [
+      {
+        "gate_id": "G1",
+        "reasoning": "The lesson uses the term 'vector store' before it defines what it is. This violates the rule that technical terms must be defined at first use.",
+        "evidence_quoted_from_lesson": "While a special database called a vector store is often used, it is not always needed for RAG.",
+        "required_fix": "Define 'vector store' in simple language at its very first mention. For example, replace the sentence with: 'While RAG often uses a special database called a vector store (a place that stores numerical fingerprints of text to find similar meaning quickly), it is not always required.' Or move the detailed explanation of the vector store so it appears before this sentence."
+      },
+      {
+        "gate_id": "G7",
+        "reasoning": "The lesson makes a forward reference to 'vector store' before explaining it, creating a brief coherence break where the reader encounters an unexplained technical term earlier in the text.",
+        "evidence_quoted_from_lesson": "While a special database called a vector store is often used, it is not always needed for RAG.",
+        "required_fix": "Move a one-sentence definition of 'vector store' so it appears before this paragraph, or reword this sentence to include a brief definition inline (e.g., 'While RAG often uses a special database called a vector store — a place that stores the numerical fingerprints of text for fast similarity search — it is not always needed.'). Ensure no technical term appears before its plain-language definition."
+      }
+    ],
+    "changed_on_next_retry": null
+  }
+]
